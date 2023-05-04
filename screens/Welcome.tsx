@@ -1,73 +1,69 @@
 import { StatusBar } from "expo-status-bar";
-import React, { useState, useRef, useCallback } from "react";
-import { Text, View, Image, Animated, PanResponder } from "react-native";
+import React, { useState, useRef, useEffect } from "react";
+import {
+	Text,
+	View,
+	Image,
+	Pressable,
+	TouchableWithoutFeedback,
+} from "react-native";
 import { StackScreenProps } from "@react-navigation/stack";
 import { Button } from "react-native-elements";
 import { img } from "../assets/catlogo";
 import { useFonts } from "expo-font";
-import * as SplashScreen from "expo-splash-screen";
+import Splash from "./Splash";
+import LottieView from "lottie-react-native";
 
-SplashScreen.preventAutoHideAsync();
-
-const WelcomeScreen: React.FC<StackScreenProps<any>> = ({ navigation }) => {
+const WelcomeScreen = ({ navigation }) => {
+	const [isLoading, setIsLoading] = useState(true);
 	const [fontsLoaded] = useFonts({
 		"Pacifico-Regular": require("../assets/fonts/Pacifico-Regular.ttf"),
 	});
+	const LottieRef = useRef(null);
 
-	const pan = useRef(new Animated.ValueXY()).current;
-	const panResponder = useRef(
-		PanResponder.create({
-			onMoveShouldSetPanResponder: () => true,
-			onPanResponderMove: Animated.event([null, { dx: pan.x, dy: pan.y }], {
-				useNativeDriver: false,
-			}),
-			onPanResponderRelease: () => {
-				Animated.spring(pan, {
-					toValue: { x: 0, y: 0 },
-					useNativeDriver: true,
-				}).start();
-			},
-		})
-	).current;
-
-	const onLayoutRootView = useCallback(async () => {
+	useEffect(() => {
 		if (fontsLoaded) {
-			await SplashScreen.hideAsync();
+			setIsLoading(false);
 		}
 	}, [fontsLoaded]);
 
-	if (!fontsLoaded) {
-		return null;
-	}
-	return (
-		<View onLayout={onLayoutRootView} className="items-center flex-1">
-			<Text
-				style={{ fontFamily: "Pacifico-Regular" }}
-				className="text-5xl m-16 pt-7"
-			>
+	return isLoading ? (
+		<Splash />
+	) : (
+		<View
+			className="items-center flex-1 bg-#b18144"
+			style={{ backgroundColor: "#f342bd" }}
+		>
+			<Text style={{ fontFamily: "Pacifico-Regular" }} tw="text-6xl m-16 pt-7">
 				Purrviews
 			</Text>
-			<Animated.View
-				style={{
-					transform: [{ translateX: pan.x }, { translateY: pan.y }],
+			<TouchableWithoutFeedback
+				onPress={() => {
+					LottieRef.current.play();
 				}}
-				{...panResponder.panHandlers}
 			>
-				<Image className="h-40 w-40" source={{ uri: img }} />
-			</Animated.View>
-
-			<View className="flex-row m-16">
-				<Button
-					className="basis-2/4"
-					title="Sign in"
+				<LottieView
+					ref={LottieRef}
+					source={require("../assets/Lottie/75212-cat-loader.json")}
+					loop={false}
+					autoPlay
+				/>
+			</TouchableWithoutFeedback>
+			<View tw="flex-row bottom-10 space-x-4 absolute">
+				<Pressable
+					tw="basis-2/4 bg-white  justify-center items-center rounded-md"
+					style={{ elevation: 6 }}
 					onPress={() => navigation.navigate("Sign In")}
-				/>
-				<Button
-					className="m-8 basis-2/4"
-					title="Sign up"
-					type="outline"
+				>
+					<Text tw="text-2xl">Sign In</Text>
+				</Pressable>
+				<Pressable
+					tw="basis-2/4 bg-white justify-center items-center rounded-md"
+					style={{ elevation: 6 }}
 					onPress={() => navigation.navigate("Sign Up")}
-				/>
+				>
+					<Text tw="text-2xl">Sign Up</Text>
+				</Pressable>
 			</View>
 		</View>
 	);
