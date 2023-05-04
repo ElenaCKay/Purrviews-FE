@@ -60,7 +60,7 @@ export default function UserScreen() {
 
 	return (
 		<View tw="flex-1 items-center m-3">
-			<Text className=" text-3xl font-bold m-3">Welcome {user?.username}!</Text>
+			<Text className=" text-3xl font-bold m-3">Welcome {user?.displayName}!</Text>
 			<TouchableOpacity onPress={pickImage}>
 				<Image source={{ uri: image }} tw="h-72 w-72 rounded-3xl" />
 			</TouchableOpacity>
