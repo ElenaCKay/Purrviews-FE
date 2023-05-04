@@ -80,7 +80,7 @@ export default function UserScreen() {
 					>
 						<View tw="flex-col text-center">
 							<Image source={{ uri: e }} tw="h-60 w-72" />
-							<View tw>
+							<View>
 								<Text tw="text-center">Name:</Text>
 								<Text tw="text-center">Age:</Text>
 								<Text tw="text-center">Breed:</Text>
