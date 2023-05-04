@@ -1,12 +1,12 @@
 import React from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, View, Pressable } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
 import { Input, Button } from "react-native-elements";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 
 const auth = getAuth();
 
-const SignInScreen = () => {
+const SignInScreen = ({ setSignIn }) => {
 	const [value, setValue] = React.useState({
 		email: "",
 		password: "",
@@ -33,7 +33,7 @@ const SignInScreen = () => {
 	}
 
 	return (
-		<View style={styles.container}>
+		<View tw="flex-1 justify-end w-full bg-transparent ">
 			<Text>Signin screen!</Text>
 
 			{!!value.error && (
@@ -42,47 +42,45 @@ const SignInScreen = () => {
 				</View>
 			)}
 
-			<View className="w-full">
+			<View className="w-full bg-emerald-900 ">
 				<Input
+					tw="text-white bg-blue-900"
 					placeholder="Email"
-					containerStyle={styles.control}
 					value={value.email}
 					onChangeText={(text) => setValue({ ...value, email: text })}
 					leftIcon={<Icon name="envelope" size={16} />}
 				/>
 
 				<Input
+					tw="text-white bg-blue-900"
 					placeholder="Password"
-					containerStyle={styles.control}
 					value={value.password}
 					onChangeText={(text) => setValue({ ...value, password: text })}
 					secureTextEntry={true}
 					leftIcon={<Icon name="key" size={16} />}
 				/>
-
-				<Button title="Sign in" buttonStyle={styles.control} onPress={signIn} />
+				<View tw="flex-row space-x-4">
+					<Pressable
+						tw="basis-2/4 bg-white  justify-center items-center rounded-md"
+						style={{ elevation: 6 }}
+						onPress={() => setSignIn(false)}
+					>
+						<Text tw="text-2xl">Back</Text>
+					</Pressable>
+					<Pressable
+						tw="basis-2/4 bg-white justify-center items-center rounded-md"
+						style={{ elevation: 6 }}
+						onPress={signIn}
+					>
+						<Text tw="text-2xl">Sign In</Text>
+					</Pressable>
+				</View>
 			</View>
 		</View>
 	);
 };
 
 const styles = StyleSheet.create({
-	container: {
-		flex: 1,
-		paddingTop: 20,
-		backgroundColor: "#fff",
-		alignItems: "center",
-		justifyContent: "center",
-	},
-
-	controls: {
-		flex: 1,
-	},
-
-	control: {
-		marginTop: 10,
-	},
-
 	error: {
 		marginTop: 10,
 		padding: 10,
