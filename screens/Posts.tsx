@@ -1,7 +1,14 @@
 import React, { useCallback, useEffect, useState } from "react";
-import { StyleSheet, Text, View, Image } from "react-native";
+import {
+	StyleSheet,
+	Text,
+	View,
+	Image,
+	Touchable,
+	TouchableOpacity,
+} from "react-native";
 import { Button } from "react-native-elements";
-import { getAuth, signOut, updateProfile } from "firebase/auth";
+import { getAuth } from "firebase/auth";
 import * as ImagePicker from "expo-image-picker";
 
 const auth = getAuth();
@@ -35,15 +42,17 @@ export default function HomeScreen() {
 	}
 
 	return (
-		<View className="h-full">
-			<Button title="Upload File" onPress={pickImage} />
+		<View tw="h-full">
 			<Image
 				source={{ uri: "data:image/png;base64," + image }}
-				className="h-80 w-80"
+				tw="h-80 w-80"
 			/>
 			<Text>Welcome {user?.email}!</Text>
 
-			<Button title="Sign Out" onPress={() => signOut(auth)} />
+			<Button title="Upload File" onPress={pickImage} />
+			<TouchableOpacity tw="absolute bottom-2 right-2 bg-red-500 w-16 h-16 rounded-3xl justify-center align-middle border-red-300 border-2">
+				<Text tw="text-center text-white font-bold text-3xl">+</Text>
+			</TouchableOpacity>
 		</View>
 	);
 }

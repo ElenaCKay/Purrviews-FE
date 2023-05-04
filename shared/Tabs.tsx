@@ -6,6 +6,7 @@ import { signOut, getAuth } from "firebase/auth";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import WelcomeScreen from "../screens/Welcome";
 import SignInScreen from "../screens/SignInScreen";
+import UserScreen from "../screens/User";
 import Map from "../screens/Map";
 import Posts from "../screens/Posts";
 
@@ -13,7 +14,7 @@ const Tab = createBottomTabNavigator();
 
 const auth = getAuth();
 
-export default function Header() {
+export default function Tabs() {
 	const { user } = useAuthentication();
 
 	return (
@@ -65,7 +66,7 @@ export default function Header() {
 			/>
 			<Tab.Screen
 				name="User"
-				component={WelcomeScreen}
+				component={UserScreen}
 				options={{
 					tabBarIcon: () => {
 						return (

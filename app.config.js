@@ -9,9 +9,9 @@ export default {
 		icon: "./assets/icon.png",
 		userInterfaceStyle: "light",
 		splash: {
-			image: "./assets/splash.png",
+			image: "./assets/cat-gif.gif",
 			resizeMode: "contain",
-			backgroundColor: "#ffffff",
+			backgroundColor: "#f342bd",
 		},
 		assetBundlePatterns: ["**/*"],
 		ios: {
