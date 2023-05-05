@@ -48,6 +48,17 @@ export default function Tabs() {
                 }}
             />
             <Tab.Screen
+                name="Users"
+                component={UsersList}
+                options={{
+                    tabBarIcon: () => {
+                        return (
+                            <Image style={{ width: 40, height: 40 }} source={require("../assets/play-with-pet.png")} />
+                        );
+                    },
+                }}
+            />
+            <Tab.Screen
                 name="My Profile"
                 component={UserScreen}
                 options={{
