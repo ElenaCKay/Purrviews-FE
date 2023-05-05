@@ -13,7 +13,7 @@ export default function UsersList() {
     ) : (
         <ScrollView tw="bg-[#e9d2b0]">
             {userListData.map((user) => (
-                <View key={user.user_id}>
+                <View key={user._id}>
                     <TouchableOpacity>
                         <Image source={{ uri: user.avatar }} tw="w-60 h-60 rounded mx-auto" />
                     </TouchableOpacity>
