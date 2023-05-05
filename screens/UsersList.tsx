@@ -21,6 +21,7 @@ export default function UsersList({navigation}) {
         </View>
     ) : (
         <ScrollView tw="bg-[#e9d2b0]">
+             <Text className=" text-3xl font-bold m-3  text-center">Users</Text>
             {userListData.map((user) => (
                 <Card key={user._id} >
                     <TouchableOpacity onPress={() => onPressFunction(user.username)}>
