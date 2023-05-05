@@ -11,3 +11,7 @@ export const getPosts = () => {
 export const getUsers = () => {
     return pvApi.get("/users").then((res) => res.data.users);
 };
+
+export const getUsersByUsername = (username) => {
+    return pvApi.get(`/users/${username}`).then((res) => res.data.users);
+};
