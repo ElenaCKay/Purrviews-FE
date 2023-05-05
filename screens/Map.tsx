@@ -7,14 +7,18 @@ import Icon from "react-native-vector-icons/FontAwesome";
 import { Button, Input } from "react-native-elements";
 import { getAuth } from "firebase/auth";
 import * as imagePicker from "expo-image-picker";
+import useImagePerm from "../utils/hooks/useImagePerm";
+import { postPost } from "../api";
 
 const auth = getAuth();
 
 export default function Map(): JSX.Element {
 	const user = auth.currentUser;
-	const { postsData, isLoading, isError } = usePosts();
+	const { postsData, setPostsData, isLoading, isError } = usePosts();
 	const { userLocation, locationPerm } = useUserLocation();
+	const imagePerm = useImagePerm();
 	const [postModal, setPostModal] = useState(false);
+	const [hasPosted, setHasPosted] = useState(false);
 	const [newPost, setNewPost] = useState({
 		img_url: '',
 		location: '',
@@ -24,8 +28,41 @@ export default function Map(): JSX.Element {
 		long: userLocation.longitude
 	});
 
+	const modalClose = () => {
+		setNewPost({
+			img_url: '',
+			location: '',
+			username: user?.displayName || 'Harry111',
+			description: '',
+			lat: userLocation.latitude,
+			long: userLocation.longitude
+		});
+		setPostModal(!postModal);
+	}
+
 	const pickImage = () => {
-		imagePicker.launchImageLibraryAsync()
+		imagePicker.launchImageLibraryAsync({
+			mediaTypes: imagePicker.MediaTypeOptions.Images,
+			allowsEditing: true,
+			aspect: [4, 3],
+			base64: true,
+		})
+		.then(res => {
+			if(!res.canceled) setNewPost(currPost => {return {...currPost, img_url: "data:image/png;base64," + res.assets[0].base64}});
+		})
+	}
+
+	const postNewPost = () => {
+		setHasPosted(true);
+		postPost(newPost)
+		.then(post => {
+			setPostsData(currPosts => {
+				return {...currPosts, post};
+			});
+			modalClose();
+		})
+		.catch(err => console.log(err))
+		.finally(() => setHasPosted(false));
 	}
 
 	if (isError) return <Text>Something Went Wrong!</Text>;
@@ -34,12 +71,13 @@ export default function Map(): JSX.Element {
 		<Text>Loading...</Text>
 	</View> :
 		<View tw="flex-1">
-			<Modal animationType="slide" transparent={false} visible={postModal} presentationStyle="formSheet" onRequestClose={() => setPostModal(!postModal)}>
-				<View>
-					<Text>{newPost.img_url}</Text>
-					<Button onPress={pickImage}></Button>
+			<Modal animationType="slide" transparent={false} visible={postModal} presentationStyle="formSheet" onRequestClose={modalClose}>
+				<View tw="items-center">
+					{newPost.img_url !== '' ? <Image source={{uri: newPost.img_url}} tw="w-1/2 h-1/2"></Image> : null}
+					{imagePerm ? <Button onPress={pickImage} title="Upload Image"></Button> : <Text>Grant Media Permissions To Upload</Text>}
 					<Input placeholder="Location" value={newPost.location} onChangeText={value => setNewPost(currPost => {return {...currPost, location: value}})}></Input>
 					<Input placeholder="Description" value={newPost.description} onChangeText={value => setNewPost(currPost => {return {...currPost, description: value}})}></Input>
+					<Button onPress={postNewPost} loading={hasPosted} title="Submit"></Button>
 				</View>
 			</Modal>
 			<MapView tw="w-full h-full flex-1 z-0" region={userLocation}>
