@@ -1,7 +1,6 @@
 import React from "react";
-import { StyleSheet, Text, View, Image, ScrollView, Button, TouchableOpacity } from "react-native";
+import { Text, View, Image, ScrollView, Button, TouchableOpacity } from "react-native";
 import useUsersList from "../utils/hooks/useUsersList";
-import { Card } from "@rneui/themed";
 
 export default function UsersList() {
     const { userListData, isLoading, isError } = useUsersList();
@@ -14,7 +13,7 @@ export default function UsersList() {
     ) : (
         <ScrollView tw="bg-[#e9d2b0]">
             {userListData.map((user) => (
-                <Card key={user.user_id} >
+                <View key={user.user_id}>
                     <TouchableOpacity>
                         <Image source={{ uri: user.avatar }} tw="w-60 h-60 rounded mx-auto" />
                     </TouchableOpacity>
@@ -26,7 +25,7 @@ export default function UsersList() {
                         color="#d7945f"
                         accessibilityLabel={`Click this button to chat with ${user.username}`}
                     />
-                </Card>
+                </View>
             ))}
         </ScrollView>
     );
