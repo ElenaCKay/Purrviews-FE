@@ -11,7 +11,7 @@ export default {
 		splash: {
 			image: "./assets/cat-gif.gif",
 			resizeMode: "contain",
-			backgroundColor: "#f342bd",
+			backgroundColor: "#a25412",
 		},
 		assetBundlePatterns: ["**/*"],
 		ios: {

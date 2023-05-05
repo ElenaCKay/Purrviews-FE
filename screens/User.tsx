@@ -13,7 +13,6 @@ import {
 import * as ImagePicker from "expo-image-picker";
 import { catmarkers } from "../assets/catmarkers/catmarkers";
 
-// &#x25cf; - big dot
 
 const auth = getAuth();
 const { width, height } = Dimensions.get("window");

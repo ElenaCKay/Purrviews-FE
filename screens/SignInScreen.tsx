@@ -1,13 +1,15 @@
-import React from "react";
+import React, { useState } from "react";
 import { StyleSheet, Text, View, Pressable } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
 import { Input, Button } from "react-native-elements";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import { useAuthentication } from "../utils/useAuthentication";
 
 const auth = getAuth();
 
 const SignInScreen = ({ setSignIn }) => {
-	const [value, setValue] = React.useState({
+	const [err, setErr] = useState("");
+	const [value, setValue] = useState({
 		email: "",
 		password: "",
 		error: "",
@@ -22,14 +24,9 @@ const SignInScreen = ({ setSignIn }) => {
 			return;
 		}
 
-		try {
-			await signInWithEmailAndPassword(auth, value.email, value.password);
-		} catch (error) {
-			setValue({
-				...value,
-				error: error.message,
-			});
-		}
+		signInWithEmailAndPassword(auth, value.email, value.password).catch(
+			(error) => setErr(error)
+		);
 	}
 
 	return (

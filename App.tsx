@@ -1,19 +1,32 @@
 import React, { useEffect, useState } from "react";
 import "./config/firebase";
-import RootNavigation from "./navigation";
-import { View } from "react-native";
 import Tab from "./shared/Tabs";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
-import HomeScreen from "./screens/Home";
 import WelcomeScreen from "./screens/Welcome";
 import { useAuthentication } from "./utils/useAuthentication";
+import * as SplashScreen from "expo-splash-screen";
+import { getUser } from "./api";
+
+SplashScreen.hideAsync();
 const Stack = createStackNavigator();
 
 export default function App() {
 	const { user } = useAuthentication();
-	return !user ? (
-		<WelcomeScreen />
+	const [userApi, setUserApi] = useState({
+		_id: "",
+		username: "",
+		description: "",
+		avatar: "",
+		cats: [],
+	});
+	console.log(Object.keys(userApi));
+	useEffect(() => {
+		if (user)
+			getUser(user.displayName).then(({ data }) => setUserApi(data.users));
+	}, [user]);
+	return !userApi.username ? (
+		<WelcomeScreen userApi={userApi} />
 	) : (
 		<NavigationContainer>
 			<Stack.Navigator
