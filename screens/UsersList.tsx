@@ -2,7 +2,6 @@ import React from "react";
 import { StyleSheet, Text, View, Image, ScrollView, Button, TouchableOpacity } from "react-native";
 import useUsersList from "../utils/hooks/useUsersList";
 import { Card } from "@rneui/themed";
-import {} from "react-native-stylex"
 
 export default function UsersList() {
     const { userListData, isLoading, isError } = useUsersList();
@@ -15,7 +14,7 @@ export default function UsersList() {
     ) : (
         <ScrollView tw="bg-[#e9d2b0]">
             {userListData.map((user) => (
-                <Card key={user.user_id} styles={{bg:"#e9d2b0"}}>
+                <Card key={user.user_id} >
                     <TouchableOpacity>
                         <Image source={{ uri: user.avatar }} tw="w-60 h-60 rounded mx-auto" />
                     </TouchableOpacity>
@@ -33,9 +32,3 @@ export default function UsersList() {
     );
 }
 
-//tw="justify-center items-center"
-{
-    /* <Text style={{ width: 200, height: 300 }}>
-                            <Image source={{ uri: user.avatar }} style={{ width: 200, height: 200 }}></Image>
-                        </Text> */
-}
