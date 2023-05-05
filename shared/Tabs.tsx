@@ -8,8 +8,8 @@ import WelcomeScreen from "../screens/Welcome";
 import SignInScreen from "../screens/SignInScreen";
 import UserScreen from "../screens/User";
 import Map from "../screens/Map";
-import Posts from "../screens/Posts";
 import UsersList from "../screens/UsersList";
+import LostAndFound from "../screens/LostandFound";
 
 const Tab = createBottomTabNavigator();
 
@@ -40,7 +40,7 @@ export default function Tabs() {
             />
             <Tab.Screen
                 name="Lost & Found"
-                component={Posts}
+                component={LostAndFound}
                 options={{
                     tabBarIcon: () => {
                         return <Image style={{ width: 40, height: 40 }} source={require("../assets/landf.png")} />;
