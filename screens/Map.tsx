@@ -22,7 +22,7 @@ export default function Map(): JSX.Element {
 					longitude: post.long
 				}}>
 					<Image source={{uri: post.img_url}} style={{width: 35, height: 35, borderRadius: 100}}></Image>
-					{<Callout style={{width: 250, height: 250}} >
+					{<Callout tw="w-60 h-60">
 						<View tw="flex-column items-center">
 							<Text style={{width:150, height: 150, textAlign: "center"}}><Image resizeMode="cover" source={{uri: post.img_url}} style={{width: 100, height: 100}}></Image></Text>
 							<Text>{post.description}</Text>
