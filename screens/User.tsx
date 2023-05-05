@@ -8,7 +8,8 @@ import {
 	Button,
 	TouchableOpacity,
 	ScrollView,
-	Dimensions,
+	Dimensions, 
+	 NativeScrollEvent
 } from "react-native";
 import * as ImagePicker from "expo-image-picker";
 import { catmarkers } from "../assets/catmarkers/catmarkers";
@@ -47,14 +48,13 @@ export default function UserScreen() {
 		return <Text>No access to storage</Text>;
 	}
 
-	onchange = (nativeEvent) => {
-		if (nativeEvent) {
-			const slide = Math.ceil(
-				nativeEvent.contentOffset.x / nativeEvent.layoutMeasurement.width
-			);
-			if (slide != active) {
-				setActive(slide);
-			}
+	const onchange = (nativeEvent: NativeScrollEvent) => {
+        const { contentOffset, layoutMeasurement } = nativeEvent;
+        if (contentOffset) {
+            const slide = Math.ceil(contentOffset.x / layoutMeasurement.width);
+            if (slide !== active) {
+                setActive(slide);
+            }
 		}
 	};
 
@@ -84,7 +84,7 @@ export default function UserScreen() {
 								<Text tw="text-center">Name:</Text>
 								<Text tw="text-center">Age:</Text>
 								<Text tw="text-center">Breed:</Text>
-								<Text tw="text-center">Charicteristics:</Text>
+								<Text tw="text-center">Characteristics:</Text>
 							</View>
 						</View>
 					</View>

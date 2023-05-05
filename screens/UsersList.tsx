@@ -2,10 +2,18 @@ import React from "react";
 import { StyleSheet, Text, View, Image, ScrollView, Button, TouchableOpacity } from "react-native";
 import useUsersList from "../utils/hooks/useUsersList";
 import { Card } from "@rneui/themed";
+import { StackScreenProps } from "@react-navigation/stack";
+import {useState} from 'react';
 
-export default function UsersList() {
+export default function UsersList({navigation}) {
+    const [userProfileUsername, setUserProfileUsername] = useState("");
     const { userListData, isLoading, isError } = useUsersList();
     if (isError) return <Text>Something Went Wrong!</Text>;
+
+    const onPressFunction = (username) => {
+        setUserProfileUsername(username);
+        navigation.navigate("User Profile", { username: username });
+    }
 
     return isLoading ? (
         <View>
@@ -14,8 +22,8 @@ export default function UsersList() {
     ) : (
         <ScrollView tw="bg-[#e9d2b0]">
             {userListData.map((user) => (
-                <Card key={user.user_id} >
-                    <TouchableOpacity>
+                <Card key={user._id} >
+                    <TouchableOpacity onPress={() => onPressFunction(user.username)}>
                         <Image source={{ uri: user.avatar }} tw="w-60 h-60 rounded mx-auto" />
                     </TouchableOpacity>
                     <Text tw="font-bold text-center">{user.username}</Text>
