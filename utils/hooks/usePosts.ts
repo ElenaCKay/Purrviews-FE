@@ -17,7 +17,7 @@ const usePosts = () => {
         .finally(() => setIsLoading(false));
     }, []);
 
-    return { postsData, isLoading, isError };
+    return { postsData, setPostsData, isLoading, isError };
 }
 
 export default usePosts;

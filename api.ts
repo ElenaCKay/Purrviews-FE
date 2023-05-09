@@ -19,3 +19,7 @@ export const getUsersByUsername = (username) => {
 export const getLostCats = () => {
     return pvApi.get("/cats/missing").then((res) => res.data.users);
 };
+
+export const postPost = (newPost) => {
+    return pvApi.post("/posts", newPost).then((res) => res.data.post);
+};
