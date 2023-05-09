@@ -4,7 +4,9 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import WelcomeScreen from "./screens/Welcome";
 import { useAuthentication } from "./utils/useAuthentication";
+import { io } from "socket.io-client";
 
+const socket = io('http://localhost:9090', {autoConnect: true});
 const Stack = createStackNavigator();
 
 export default function App() {
