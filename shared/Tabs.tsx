@@ -1,22 +1,15 @@
 import React from "react";
 import { StyleSheet, Text, View, Image } from "react-native";
-import { useAuthentication } from "../utils/useAuthentication";
-import { Button } from "react-native-elements";
-import { signOut, getAuth } from "firebase/auth";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import WelcomeScreen from "../screens/Welcome";
-import SignInScreen from "../screens/SignInScreen";
 import UserScreen from "../screens/User";
 import Map from "../screens/Map";
 import Posts from "../screens/Posts";
 
 const Tab = createBottomTabNavigator();
 
-const auth = getAuth();
 
 export default function Tabs() {
-	const { user } = useAuthentication();
-
 	return (
 		<Tab.Navigator
 			initialRouteName="Home"

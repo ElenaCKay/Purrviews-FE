@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from "react";
-import { Text, View, Pressable, Image } from "react-native";
+import { useEffect, useState } from "react";
+import { Text, View, Image, TouchableOpacity } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
 import { Input } from "react-native-elements";
 import * as ImagePicker from "expo-image-picker";
 import { catmarkers } from "../assets/catmarkers/catmarkers";
-import Animated, { SlideInDown, SlideInUp } from "react-native-reanimated";
+import Animated, { SlideInDown } from "react-native-reanimated";
 
 const AddCat = ({ setAddCat, addCat, setApiUserInfo, apiUserInfo }) => {
 	const [isMissing, setIsMissing] = useState(false);
@@ -16,14 +16,15 @@ const AddCat = ({ setAddCat, addCat, setApiUserInfo, apiUserInfo }) => {
 		cat_img: catmarkers[Math.floor(Math.random() * catmarkers.length)],
 		missing: false,
 	});
+	const [err, setErr] = useState("");
 
 	const pickCatImage = async () => {
 		const result = await ImagePicker.launchImageLibraryAsync({
 			mediaTypes: ImagePicker.MediaTypeOptions.Images,
 			allowsEditing: true,
-			aspect: [4, 3],
+			aspect: [4, 4],
 			base64: true,
-			quality: 0.4,
+			quality: 0.3,
 		});
 		if (!result.canceled) {
 			setCurrentCat({
@@ -35,10 +36,21 @@ const AddCat = ({ setAddCat, addCat, setApiUserInfo, apiUserInfo }) => {
 	return (
 		<Animated.View
 			entering={SlideInDown}
-			tw="w-full h-full bg-blue-900 absolute items-center justify-end border-black border-2"
+			tw="flex-1 w-full h-full absolute bottom-0 bg-orange-300 items-center justify-end"
 		>
-			<Pressable
-				tw=" bg-gray-300 rounded-3xl mt-12 mb-12"
+			{err && (
+				<Text tw="w-full bg-red-700 text-xl text-white top-0 absolute">
+					{err}
+				</Text>
+			)}
+			<Text
+				style={{ fontFamily: "Pacifico-Regular" }}
+				tw="text-5xl pt-7 text-purple-900 underline"
+			>
+				Add A Cat
+			</Text>
+			<TouchableOpacity
+				tw=" bg-gray-300 rounded-3xl mb-12"
 				style={{ elevation: 6 }}
 				onPress={pickCatImage}
 			>
@@ -47,9 +59,9 @@ const AddCat = ({ setAddCat, addCat, setApiUserInfo, apiUserInfo }) => {
 					resizeMode="contain"
 					source={{ uri: currentCat.cat_img }}
 				/>
-			</Pressable>
+			</TouchableOpacity>
 			<Input
-				tw="bg-gray-300"
+				style={{ backgroundColor: "#d7945f" }}
 				placeholder="Cat name"
 				value={currentCat.cat_name}
 				onChangeText={(text) => {
@@ -58,9 +70,8 @@ const AddCat = ({ setAddCat, addCat, setApiUserInfo, apiUserInfo }) => {
 				leftIcon={<Icon name="envelope" size={16} />}
 			/>
 			<Input
-				tw="bg-gray-300"
+				style={{ backgroundColor: "#d7945f" }}
 				placeholder="Age"
-				value={String(currentCat.age)}
 				keyboardType="numeric"
 				onChangeText={(text) => {
 					setCurrentCat({ ...currentCat, age: Number(text) });
@@ -68,7 +79,7 @@ const AddCat = ({ setAddCat, addCat, setApiUserInfo, apiUserInfo }) => {
 				leftIcon={<Icon name="envelope" size={16} />}
 			/>
 			<Input
-				tw="bg-gray-300"
+				style={{ backgroundColor: "#d7945f" }}
 				placeholder="Breed"
 				value={currentCat.breed}
 				onChangeText={(text) => {
@@ -77,7 +88,7 @@ const AddCat = ({ setAddCat, addCat, setApiUserInfo, apiUserInfo }) => {
 				leftIcon={<Icon name="envelope" size={16} />}
 			/>
 			<Input
-				tw="bg-gray-300"
+				style={{ backgroundColor: "#d7945f" }}
 				placeholder="Characteristics"
 				value={currentCat.characteristics}
 				onChangeText={(text) => {
@@ -85,24 +96,24 @@ const AddCat = ({ setAddCat, addCat, setApiUserInfo, apiUserInfo }) => {
 				}}
 				leftIcon={<Icon name="envelope" size={16} />}
 			/>
-			<Pressable
-				tw=" mb-12 bg-white justify-center items-center rounded-md p-3 border-black border-2"
+			<TouchableOpacity
+				tw="mb-12 bg-white justify-center items-center rounded-md p-3 border-black border-2"
 				style={
 					isMissing
 						? {
-								backgroundColor: "gold",
+								backgroundColor: "white",
 						  }
-						: { backgroundColor: "green" }
+						: { backgroundColor: "#d7945f" }
 				}
 				onPress={() => {
 					setIsMissing(!isMissing);
 					setCurrentCat({ ...currentCat, missing: isMissing });
 				}}
 			>
-				<Text tw="text-3xl">Missing</Text>
-			</Pressable>
+				<Text tw="text-3xl">{isMissing ? "Missing" : "Not Missing"}</Text>
+			</TouchableOpacity>
 			<View tw="flex-row space-x-4">
-				<Pressable
+				<TouchableOpacity
 					tw="basis-2/4 bg-white h-16 justify-center items-center rounded-md"
 					style={{ elevation: 6 }}
 					onPress={() => {
@@ -119,29 +130,33 @@ const AddCat = ({ setAddCat, addCat, setApiUserInfo, apiUserInfo }) => {
 					}}
 				>
 					<Text tw="text-3xl">Back</Text>
-				</Pressable>
-				<Pressable
+				</TouchableOpacity>
+				<TouchableOpacity
 					tw="basis-2/4 bg-white h-16 justify-center items-center rounded-md"
 					style={{ elevation: 6 }}
 					onPress={() => {
-						setApiUserInfo({
-							...apiUserInfo,
-							cats: [...apiUserInfo.cats, currentCat],
-						});
-						setAddCat(!addCat);
-						setCurrentCat({
-							cat_name: "",
-							age: 0,
-							breed: "",
-							characteristics: "",
-							cat_img:
-								catmarkers[Math.floor(Math.random() * catmarkers.length)],
-							missing: false,
-						});
+						if (currentCat.cat_name.length <= 2) {
+							setErr("Please Enter a cat name");
+						} else {
+							setApiUserInfo({
+								...apiUserInfo,
+								cats: [...apiUserInfo.cats, currentCat],
+							});
+							setAddCat(!addCat);
+							setCurrentCat({
+								cat_name: "",
+								age: 0,
+								breed: "",
+								characteristics: "",
+								cat_img:
+									catmarkers[Math.floor(Math.random() * catmarkers.length)],
+								missing: false,
+							});
+						}
 					}}
 				>
 					<Text tw="text-3xl">Add Cat</Text>
-				</Pressable>
+				</TouchableOpacity>
 			</View>
 		</Animated.View>
 	);
