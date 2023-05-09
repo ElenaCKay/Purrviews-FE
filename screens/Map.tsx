@@ -57,7 +57,7 @@ export default function Map(): JSX.Element {
 		postPost(newPost)
 		.then(post => {
 			setPostsData(currPosts => {
-				return {...currPosts, post};
+				return [...currPosts, post];
 			});
 			modalClose();
 		})
