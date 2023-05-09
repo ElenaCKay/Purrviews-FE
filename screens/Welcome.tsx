@@ -63,6 +63,28 @@ const WelcomeScreen = () => {
 		<Splash />
 	) : (
 		<View tw="items-center flex-1 h-full bg-orange-200">
+			<View tw="items-center top-28">
+				<Text
+					onPress={() => LottieRef.current?.play()}
+					style={{ fontFamily: "Pacifico-Regular" }}
+					tw="text-6xl pt-7 z-10 absolute text-purple-900 self-center"
+				>
+					Purrviews
+				</Text>
+				<TouchableWithoutFeedback
+					onPress={() => {
+						LottieRef.current?.play();
+					}}
+				>
+					<LottieView
+						ref={LottieRef}
+						tw="w-10/12 absolute self-center -top-16"
+						source={require("../assets/Lottie/75212-cat-loader.json")}
+						loop={isLoading}
+						autoPlay={isLoading}
+					/>
+				</TouchableWithoutFeedback>
+			</View>
 			{isSignUp ? (
 				<SignUpScreen
 					setSignUp={setSignUp}
@@ -98,28 +120,6 @@ const WelcomeScreen = () => {
 			) : (
 				<SignInScreen setSignUp={setSignUp} LottieRef={LottieRef} />
 			)}
-			<View tw="items-center top-28">
-				<Text
-					onPress={() => LottieRef.current?.play()}
-					style={{ fontFamily: "Pacifico-Regular" }}
-					tw="text-6xl pt-7 z-10 absolute text-purple-900 self-center"
-				>
-					Purrviews
-				</Text>
-				<TouchableWithoutFeedback
-					onPress={() => {
-						LottieRef.current?.play();
-					}}
-				>
-					<LottieView
-						ref={LottieRef}
-						tw="w-10/12 absolute self-center -top-16"
-						source={require("../assets/Lottie/75212-cat-loader.json")}
-						loop={isLoading}
-						autoPlay={isLoading}
-					/>
-				</TouchableWithoutFeedback>
-			</View>
 		</View>
 	);
 };
