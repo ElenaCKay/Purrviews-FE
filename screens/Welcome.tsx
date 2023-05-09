@@ -13,7 +13,7 @@ import LottieView from "lottie-react-native";
 import SignInScreen from "../components/SignInScreen";
 import SignUpScreen from "../components/SignUpScreen";
 import fetchFonts from "../assets/hooks/useFonts";
-import { getUser } from "../api";
+import { getUsersByUsername } from "../api";
 import { autoLogin } from "../assets/hooks/autoLogin";
 import signOutLocal from "../assets/hooks/signOutLocal";
 import { getLocalUser } from "../assets/hooks/getLocalUser";
@@ -46,7 +46,7 @@ const WelcomeScreen = () => {
 					.then(
 						() =>
 							!local.username &&
-							getUser(user.displayName).then((users) => {
+							getUsersByUsername(user.displayName).then((users) => {
 								setLocal(users);
 								saveUser(users);
 							})
