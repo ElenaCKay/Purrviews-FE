@@ -49,20 +49,18 @@ export default function UserScreen() {
 	}
 
 	const onchange = (nativeEvent: NativeScrollEvent) => {
-		const { contentOffset, layoutMeasurement } = nativeEvent;
-		if (contentOffset) {
-			const slide = Math.ceil(contentOffset.x / layoutMeasurement.width);
-			if (slide !== active) {
-				setActive(slide);
-			}
+        const { contentOffset, layoutMeasurement } = nativeEvent;
+        if (contentOffset) {
+            const slide = Math.ceil(contentOffset.x / layoutMeasurement.width);
+            if (slide !== active) {
+                setActive(slide);
+            }
 		}
 	};
 
 	return (
 		<View tw="flex-1 items-center m-3">
-			<Text className=" text-3xl font-bold m-3">
-				Welcome {user?.displayName}!
-			</Text>
+			<Text className=" text-3xl font-bold m-3">Welcome {user?.displayName}!</Text>
 			<TouchableOpacity onPress={pickImage}>
 				<Image source={{ uri: image }} tw="h-72 w-72 rounded-3xl" />
 			</TouchableOpacity>

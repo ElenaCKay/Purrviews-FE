@@ -1,10 +1,21 @@
 import axios from "axios";
 
 const pvApi = axios.create({
-    baseURL: 'https://purrviews-api.onrender.com/api'
+    baseURL: "https://purrviews-api.onrender.com/api",
 });
 
-export const postUsers = (body: any) => pvApi.post("/users", body);
+export const getPosts = () => {
+    return pvApi.get("/posts").then((res) => res.data.posts);
+};
 
-export const postCat = (username: string, body = {}) =>
-	pvApi.post(`/users/${username}/cats`, body);
+export const getUsers = () => {
+    return pvApi.get("/users").then((res) => res.data.users);
+};
+
+export const getUsersByUsername = (username) => {
+    return pvApi.get(`/users/${username}`).then((res) => res.data.users);
+};
+
+export const getLostCats = () => {
+    return pvApi.get("/cats/missing").then((res) => res.data.users);
+};
