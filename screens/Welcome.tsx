@@ -46,9 +46,9 @@ const WelcomeScreen = () => {
 					.then(
 						() =>
 							!local.username &&
-							getUser(user.displayName).then(({ data }) => {
-								setLocal(data.users);
-								saveUser(data.users);
+							getUser(user.displayName).then((users) => {
+								setLocal(users);
+								saveUser(users);
 							})
 					)
 					.catch((err) => setErr(err))

@@ -1,15 +1,22 @@
 import React from "react";
 import { StyleSheet, Text, View, Image } from "react-native";
+import { useAuthentication } from "../utils/useAuthentication";
+import { Button } from "react-native-elements";
+import { signOut, getAuth } from "firebase/auth";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import WelcomeScreen from "../screens/Welcome";
 import UserScreen from "../screens/User";
 import Map from "../screens/Map";
-import Posts from "../screens/Posts";
-import LottieView from "lottie-react-native";
+import UsersList from "../screens/UsersList";
+import LostAndFound from "../screens/LostandFound";
 
 const Tab = createBottomTabNavigator();
 
+const auth = getAuth();
+
 export default function Tabs() {
+	const { user } = useAuthentication();
+
 	return (
 		<Tab.Navigator
 			initialRouteName="Home"
@@ -45,7 +52,7 @@ export default function Tabs() {
 			/>
 			<Tab.Screen
 				name="Lost & Found"
-				component={Posts}
+				component={LostAndFound}
 				options={{
 					tabBarIcon: () => {
 						return (
@@ -58,7 +65,21 @@ export default function Tabs() {
 				}}
 			/>
 			<Tab.Screen
-				name="User"
+				name="Users"
+				component={UsersList}
+				options={{
+					tabBarIcon: () => {
+						return (
+							<Image
+								style={{ width: 40, height: 40 }}
+								source={require("../assets/play-with-pet.png")}
+							/>
+						);
+					},
+				}}
+			/>
+			<Tab.Screen
+				name="My Profile"
 				component={UserScreen}
 				options={{
 					tabBarIcon: () => {

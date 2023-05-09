@@ -6,7 +6,5 @@ const pvApi = axios.create({
 
 export const postUsers = (body: any) => pvApi.post("/users", body);
 
-export const getUser = (username: string) => pvApi.get(`/users/${username}`);
-
 export const postCat = (username: string, body = {}) =>
 	pvApi.post(`/users/${username}/cats`, body);
