@@ -5,9 +5,9 @@ import WelcomeScreen from "../screens/Welcome";
 import UserScreen from "../screens/User";
 import Map from "../screens/Map";
 import Posts from "../screens/Posts";
+import LottieView from "lottie-react-native";
 
 const Tab = createBottomTabNavigator();
-
 
 export default function Tabs() {
 	return (
