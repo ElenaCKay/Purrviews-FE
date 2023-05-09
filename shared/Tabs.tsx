@@ -5,7 +5,6 @@ import { Button } from "react-native-elements";
 import { signOut, getAuth } from "firebase/auth";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import WelcomeScreen from "../screens/Welcome";
-import SignInScreen from "../screens/SignInScreen";
 import UserScreen from "../screens/User";
 import Map from "../screens/Map";
 import UsersList from "../screens/UsersList";
@@ -17,6 +16,7 @@ const auth = getAuth();
 
 export default function Tabs() {
     const { user } = useAuthentication();
+
 
     return (
         <Tab.Navigator initialRouteName="Home" screenOptions={{ headerShown: false }}>

@@ -8,8 +8,8 @@ import {
 	Button,
 	TouchableOpacity,
 	ScrollView,
-	Dimensions, 
-	 NativeScrollEvent
+	Dimensions,
+	NativeScrollEvent,
 } from "react-native";
 import * as ImagePicker from "expo-image-picker";
 import { catmarkers } from "../assets/catmarkers/catmarkers";
