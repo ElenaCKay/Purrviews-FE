@@ -7,6 +7,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import WelcomeScreen from "../screens/Welcome";
 import UserScreen from "../screens/User";
 import Map from "../screens/Map";
+import Posts from "../screens/Posts";
 import UsersList from "../screens/UsersList";
 import LostAndFound from "../screens/LostandFound";
 
@@ -32,6 +33,15 @@ export default function Tabs() {
             <Tab.Screen
                 name="Map"
                 component={Map}
+                options={{
+                    tabBarIcon: () => {
+                        return <Image style={{ width: 65, height: 65 }} source={require("../assets/map.png")} />;
+                    },
+                }}
+            />
+            <Tab.Screen
+                name="Posts"
+                component={Posts}
                 options={{
                     tabBarIcon: () => {
                         return <Image style={{ width: 65, height: 65 }} source={require("../assets/map.png")} />;
