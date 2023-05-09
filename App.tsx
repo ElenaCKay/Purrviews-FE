@@ -1,7 +1,28 @@
-import React, { useEffect } from "react";
 import "./config/firebase";
-import RootNavigation from "./navigation";
+import Tab from "./shared/Tabs";
+import { NavigationContainer } from "@react-navigation/native";
+import { createStackNavigator } from "@react-navigation/stack";
+import WelcomeScreen from "./screens/Welcome";
+import { useAuthentication } from "./utils/useAuthentication";
+
+const Stack = createStackNavigator();
 
 export default function App() {
-	return <RootNavigation />;
+	const { user } = useAuthentication();
+
+	return (
+		<NavigationContainer>
+			<Stack.Navigator
+				screenOptions={{
+					headerShown: false,
+				}}
+			>
+				{!user ? (
+					<Stack.Screen name="Welcome" component={WelcomeScreen} />
+				) : (
+					<Stack.Screen name="Welcome" component={Tab} />
+				)}
+			</Stack.Navigator>
+		</NavigationContainer>
+	);
 }

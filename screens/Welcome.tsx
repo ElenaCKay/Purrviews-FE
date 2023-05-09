@@ -1,70 +1,125 @@
-import { StatusBar } from "expo-status-bar";
-import React, { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect } from "react";
 import {
 	Text,
 	View,
-	Image,
-	Pressable,
 	TouchableWithoutFeedback,
+	TouchableOpacity,
+	Image,
 } from "react-native";
-import { StackScreenProps } from "@react-navigation/stack";
-import { Button } from "react-native-elements";
-import { img } from "../assets/catlogo";
-import { useFonts } from "expo-font";
-import Splash from "./Splash";
+import { getAuth, signOut } from "firebase/auth";
+import { useAuthentication } from "../utils/useAuthentication";
+import Splash from "../components/Splash";
 import LottieView from "lottie-react-native";
+import SignInScreen from "../components/SignInScreen";
+import SignUpScreen from "../components/SignUpScreen";
+import fetchFonts from "../assets/hooks/useFonts";
+import { getUsersByUsername } from "../api";
+import { autoLogin } from "../assets/hooks/autoLogin";
+import signOutLocal from "../assets/hooks/signOutLocal";
+import { getLocalUser } from "../assets/hooks/getLocalUser";
+import { saveUser } from "../assets/hooks/saveUser";
+import { catmarkers } from "../assets/catmarkers/catmarkers";
 
-const WelcomeScreen = ({ navigation }) => {
-	const [isLoading, setIsLoading] = useState(true);
-	const [fontsLoaded] = useFonts({
-		"Pacifico-Regular": require("../assets/fonts/Pacifico-Regular.ttf"),
-	});
+const auth = getAuth();
+
+const WelcomeScreen = () => {
 	const LottieRef = useRef(null);
+	const { user } = useAuthentication();
+	const [isSignUp, setSignUp] = useState(false);
+	const [err, setErr] = useState("");
+	const [isLoading, setIsLoading] = useState(true);
+	const [local, setLocal] = useState({
+		username: "",
+		description: "",
+		avatar: catmarkers[Math.floor(Math.random() * catmarkers.length)],
+	});
 
 	useEffect(() => {
-		if (fontsLoaded) {
+		setIsLoading(true);
+		const attemptLogin = !user
+			? autoLogin()
+			: user
+			? user.displayName !== local.username &&
+			  !local.username &&
+			  getLocalUser()
+					.then((data) => setLocal(data))
+					.then(
+						() =>
+							!local.username &&
+							getUsersByUsername(user.displayName).then((users) => {
+								setLocal(users);
+								saveUser(users);
+							})
+					)
+					.catch((err) => setErr(err))
+			: Promise.resolve();
+		Promise.all([attemptLogin, fetchFonts()]).then(() => {
 			setIsLoading(false);
-		}
-	}, [fontsLoaded]);
+			LottieRef.current?.play();
+		});
+	}, [user]);
 
 	return isLoading ? (
 		<Splash />
 	) : (
-		<View
-			className="items-center flex-1 bg-#b18144"
-			style={{ backgroundColor: "#f342bd" }}
-		>
-			<Text style={{ fontFamily: "Pacifico-Regular" }} tw="text-6xl m-16 pt-7">
-				Purrviews
-			</Text>
-			<TouchableWithoutFeedback
-				onPress={() => {
-					LottieRef.current.play();
-				}}
-			>
-				<LottieView
-					ref={LottieRef}
-					source={require("../assets/Lottie/75212-cat-loader.json")}
-					loop={false}
-					autoPlay
-				/>
-			</TouchableWithoutFeedback>
-			<View tw="flex-row bottom-10 space-x-4 absolute">
-				<Pressable
-					tw="basis-2/4 bg-white  justify-center items-center rounded-md"
-					style={{ elevation: 6 }}
-					onPress={() => navigation.navigate("Sign In")}
+		<View tw="items-center flex-1 h-full bg-orange-200">
+			<View tw="items-center top-28">
+				<Text
+					onPress={() => LottieRef.current?.play()}
+					style={{ fontFamily: "Pacifico-Regular" }}
+					tw="text-6xl pt-7 z-10 absolute text-purple-900 self-center"
 				>
-					<Text tw="text-2xl">Sign In</Text>
-				</Pressable>
-				<Pressable
-					tw="basis-2/4 bg-white justify-center items-center rounded-md"
-					style={{ elevation: 6 }}
-					onPress={() => navigation.navigate("Sign Up")}
+					Purrviews
+				</Text>
+				<TouchableWithoutFeedback
+					onPress={() => {
+						LottieRef.current?.play();
+					}}
 				>
-					<Text tw="text-2xl">Sign Up</Text>
-				</Pressable>
+					<LottieView
+						ref={LottieRef}
+						tw="w-10/12 absolute self-center -top-16"
+						source={require("../assets/Lottie/75212-cat-loader.json")}
+						loop={isLoading}
+						autoPlay={isLoading}
+					/>
+				</TouchableWithoutFeedback>
 			</View>
+			{isSignUp ? (
+				<SignUpScreen
+					setSignUp={setSignUp}
+					setIsLoading={setIsLoading}
+					isLoading={isLoading}
+				/>
+			) : user ? (
+				<View tw="h-full bottom-0 absolute justify-center  items-center">
+					{local.avatar && (
+						<Image
+							source={{ uri: local.avatar }}
+							tw="w-40 h-40"
+							resizeMode="contain"
+						/>
+					)}
+					<Text
+						tw="text-4xl pt-3 text-purple-900"
+						style={{ fontFamily: "Pacifico-Regular" }}
+					>
+						Welcome {local.username}!
+					</Text>
+					<TouchableOpacity
+						tw="w-3/6 h-10 bg-white rounded-md bottom-3 items-center absolute"
+						style={{ elevation: 6 }}
+						onPress={() => {
+							signOutLocal();
+							signOut(auth);
+						}}
+					>
+						<Text tw="text-3xl">Sign Out</Text>
+					</TouchableOpacity>
+				</View>
+			) : (
+				<SignInScreen setSignUp={setSignUp} LottieRef={LottieRef} />
+			)}
 		</View>
 	);
 };

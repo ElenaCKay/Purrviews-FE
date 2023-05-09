@@ -9,7 +9,7 @@ import {
 	TouchableOpacity,
 	ScrollView,
 	Dimensions,
-	NativeScrollEvent
+	NativeScrollEvent,
 } from "react-native";
 import * as ImagePicker from "expo-image-picker";
 import { catmarkers } from "../assets/catmarkers/catmarkers";
@@ -84,7 +84,7 @@ export default function UserScreen() {
 								<Text tw="text-center">Name:</Text>
 								<Text tw="text-center">Age:</Text>
 								<Text tw="text-center">Breed:</Text>
-								<Text tw="text-center">Charicteristics:</Text>
+								<Text tw="text-center">Characteristics:</Text>
 							</View>
 						</View>
 					</View>
