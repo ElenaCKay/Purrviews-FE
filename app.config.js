@@ -6,7 +6,7 @@ export default {
 		slug: "purrviews",
 		version: "1.0.0",
 		orientation: "portrait",
-		icon: "./assets/icon.png",
+		icon: "./assets/favicon.png",
 		userInterfaceStyle: "light",
 		splash: {
 			image: "./assets/cat-gif.gif",
