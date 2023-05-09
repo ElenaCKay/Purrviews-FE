@@ -24,6 +24,7 @@ const auth = getAuth();
 
 const WelcomeScreen = () => {
 	const LottieRef = useRef(null);
+	const [login, setLogin] = useState(false);
 	const { user } = useAuthentication();
 	const [isSignUp, setSignUp] = useState(false);
 	const [err, setErr] = useState("");
@@ -33,6 +34,7 @@ const WelcomeScreen = () => {
 		description: "",
 		avatar: catmarkers[Math.floor(Math.random() * catmarkers.length)],
 	});
+	console.log(local.username, "local");
 
 	useEffect(() => {
 		setIsLoading(true);
@@ -57,7 +59,7 @@ const WelcomeScreen = () => {
 			setIsLoading(false);
 			LottieRef.current?.play();
 		});
-	}, [user]);
+	}, [user, login]);
 
 	return isLoading ? (
 		<Splash />
@@ -90,6 +92,8 @@ const WelcomeScreen = () => {
 					setSignUp={setSignUp}
 					setIsLoading={setIsLoading}
 					isLoading={isLoading}
+					setLocal={setLocal}
+					setLogin={setLogin}
 				/>
 			) : user ? (
 				<View tw="h-full bottom-0 absolute justify-center  items-center">

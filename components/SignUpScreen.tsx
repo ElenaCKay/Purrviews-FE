@@ -17,12 +17,19 @@ import {
 import Splash from "./Splash";
 import * as ImagePicker from "expo-image-picker";
 import { catmarkers } from "../assets/catmarkers/catmarkers";
-import { postCat, postUsers } from "../api";
+import { postCat, postUser } from "../api";
 import AddCat from "./AddCat";
 import Animated, { SlideInDown } from "react-native-reanimated";
 import { saveUser } from "../assets/hooks/saveUser";
+import signOutLocal from "../assets/hooks/signOutLocal";
 
-const SignUpScreen = ({ setSignUp, setIsLoading, isLoading }) => {
+const SignUpScreen = ({
+	setSignUp,
+	setIsLoading,
+	isLoading,
+	setLocal,
+	setLogin,
+}) => {
 	const [addCat, setAddCat] = useState(false);
 	const [active, setActive] = useState(0);
 	const [err, setErr] = useState("");
@@ -61,11 +68,13 @@ const SignUpScreen = ({ setSignUp, setIsLoading, isLoading }) => {
 				})
 				.then(() => {
 					saveUser(apiUserInfo);
-					postUsers(apiUserInfo);
+					postUser(apiUserInfo);
+					setLocal(apiUserInfo);
 				})
 				.then(() =>
 					apiUserInfo.cats.forEach((cat) => postCat(apiUserInfo.username, cat))
 				)
+				.then(() => setLogin(true))
 				.catch((error) => setErr(err + error.message));
 	}
 
