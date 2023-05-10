@@ -36,7 +36,7 @@ export default function CatOfTheDay() {
 	return loading ? (
 		<Splash />
 	) : (
-		<View tw="w-5/6 items-center bg-orange-200 pb-12 rounded-xl border-4 border-[#876243]">
+		<View tw="w-5/6 items-center bg-[#d7945f] pb-12 rounded-xl border-4 border-[#876243]">
 			<View tw="flex-column">
 				<Text tw="text-center text-3xl mb-2 font-bold">Cat Of The Day By:</Text>
 				<Text
