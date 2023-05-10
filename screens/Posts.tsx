@@ -5,6 +5,7 @@ import {
   View,
   Image,
   ScrollView,
+  TouchableOpacity,
 } from "react-native";
 import { Card } from "@rneui/themed";
 import { Button, Input } from "react-native-elements";
@@ -76,29 +77,30 @@ export default function Posts({navigation}) {
   if (isLoading) return <Text>Loading...</Text>
 
   return (
-    <ScrollView>
-				<View tw="items-center">
-					{newPost.img_url !== '' ? <Image source={{uri: newPost.img_url}} tw="w-1/2 h-1/2"></Image> : null}
-					{imagePerm ? <Button onPress={pickImage} title="Upload Image"></Button> : <Text>Grant Media Permissions To Upload</Text>}
-					<Input placeholder="Location" value={newPost.location} onChangeText={value => setNewPost(currPost => {return {...currPost, location: value}})}></Input>
-					<Input placeholder="Description" value={newPost.description} onChangeText={value => setNewPost(currPost => {return {...currPost, description: value}})}></Input>
-					<Button onPress={postNewPost} loading={hasPosted} title="Submit"></Button>
+    <ScrollView tw="bg-[#e9d2b0] mt-6">
+		<Text className=" text-3xl font-bold m-3  text-center">Posts</Text>
+				<View tw="items-center m-3">
+					{newPost.img_url !== '' ? <Image source={{uri: newPost.img_url}} tw="w-60 h-60 rounded mx-auto"></Image> : null}
+					{imagePerm ? <TouchableOpacity onPress={pickImage} style={styles.button}><Text>Upload Image</Text></TouchableOpacity> : <Text>Grant Media Permissions To Upload</Text>}
+					<Input tw="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline mt-5" id="location" placeholder="Location" value={newPost.location} onChangeText={value => setNewPost(currPost => {return {...currPost, location: value}})}></Input>
+					<Input tw="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="description" placeholder="Description" value={newPost.description} onChangeText={value => setNewPost(currPost => {return {...currPost, description: value}})}></Input>
+					<TouchableOpacity onPress={postNewPost} style={styles.button}><Text>Submit</Text></TouchableOpacity>
 				</View>
       <View tw="h-full">
 
-        <Text>Welcome {user?.email}!</Text>
+        {/* <Text>Welcome {user?.email}!</Text> */}
 
         <View>
           {postsData.map((post) => (
-            <Card key={post._id}>
+            <Card key={post._id} containerStyle={styles.card}>
               <Image
                 source={{ uri: post.img_url }}
                 tw="w-60 h-60 rounded mx-auto"
               />
               <Text tw="text-center">{post.description}</Text>
-				<Text>{post.username} {post.posted_at.slice(0,16).replace('T', ' ')}</Text>
-				<Text><Icon name="thumbs-o-up" size={16}/> {post.votes}</Text>
-              <Button title="Chat" />
+				<Text tw="text-center">{post.username} {post.posted_at.slice(0,16).replace('T', ' ')}</Text>
+				<Text tw="text-center"><Icon name="thumbs-o-up" size={16}/> {post.votes}</Text>
+				<TouchableOpacity style={styles.button}><Text>Chat</Text></TouchableOpacity>
             </Card>
           ))}
         </View>
@@ -115,6 +117,13 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   button: {
-    marginTop: 10,
+	alignItems: 'center',
+    backgroundColor: '#d7945f',
+    padding: 10,
+	elevation: 6,
   },
+  card: {
+	backgroundColor: '#e3aa6b',
+	borderColor: '#d7945f',
+  }
 });
