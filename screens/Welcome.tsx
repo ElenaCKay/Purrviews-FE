@@ -98,14 +98,6 @@ const WelcomeScreen = () => {
 			{isSignUp ? (
 				<SignUpScreen setSignUp={setSignUp} isLoading={isLoading} />
 			) : user ? (
-				// <View tw="h-full bottom-0 absolute justify-center items-center">
-				// 	{local.avatar && (
-				// 		<Image
-				// 			source={{ uri: local.avatar }}
-				// 			tw="w-40 h-40"
-				// 			resizeMode="contain"
-				// 		/>
-				// 	)}
 				<View tw="h-4/6 w-full absolute items-center bottom-0">
 					<CatOfTheDay />
 					<TouchableOpacity
