@@ -77,14 +77,19 @@ export default function Posts({navigation}) {
   if (isLoading) return <Text>Loading...</Text>
 
   return (
-    <ScrollView tw="bg-[#e9d2b0] mt-6">
-		<Text className=" text-3xl font-bold m-3  text-center">Posts</Text>
-				<View tw="items-center m-3">
+    <ScrollView tw="bg-[#e9d2b0]">
+		<Text
+					tw="text-3xl m-3 mt-10 text-center pt-6 text-purple-900 text-5xl text-center"
+					style={{ fontFamily: "Pacifico-Regular" }}
+				>
+					Posts
+				</Text>
+				<View tw="items-center">
 					{newPost.img_url !== '' ? <Image source={{uri: newPost.img_url}} tw="w-60 h-60 rounded mx-auto"></Image> : null}
-					{imagePerm ? <TouchableOpacity onPress={pickImage} style={styles.button}><Text>Upload Image</Text></TouchableOpacity> : <Text>Grant Media Permissions To Upload</Text>}
-					<Input tw="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline mt-5" id="location" placeholder="Location" value={newPost.location} onChangeText={value => setNewPost(currPost => {return {...currPost, location: value}})}></Input>
-					<Input tw="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="description" placeholder="Description" value={newPost.description} onChangeText={value => setNewPost(currPost => {return {...currPost, description: value}})}></Input>
-					<TouchableOpacity onPress={postNewPost} style={styles.button}><Text>Submit</Text></TouchableOpacity>
+					{imagePerm ? <TouchableOpacity onPress={pickImage} style={styles.uploadButton}><Text>Upload Image</Text></TouchableOpacity> : <Text>Grant Media Permissions To Upload</Text>}
+					<Input tw="shadow appearance-none border rounded w-full py-1 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="location" placeholder="Location" value={newPost.location} onChangeText={value => setNewPost(currPost => {return {...currPost, location: value}})}></Input>
+					<Input tw="shadow appearance-none border rounded w-full py-1 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="description" placeholder="Description" value={newPost.description} onChangeText={value => setNewPost(currPost => {return {...currPost, description: value}})}></Input>
+					<TouchableOpacity onPress={postNewPost} style={styles.submitButton}><Text>Submit</Text></TouchableOpacity>
 				</View>
       <View tw="h-full">
 
@@ -100,7 +105,7 @@ export default function Posts({navigation}) {
               <Text tw="text-center">{post.description}</Text>
 				<Text tw="text-center">{post.username} {post.posted_at.slice(0,16).replace('T', ' ')}</Text>
 				<Text tw="text-center"><Icon name="thumbs-o-up" size={16}/> {post.votes}</Text>
-				<TouchableOpacity style={styles.button}><Text>Chat</Text></TouchableOpacity>
+				<TouchableOpacity style={styles.chatButton}><Text>Chat</Text></TouchableOpacity>
             </Card>
           ))}
         </View>
@@ -116,11 +121,26 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
-  button: {
+  uploadButton: {
 	alignItems: 'center',
     backgroundColor: '#d7945f',
     padding: 10,
 	elevation: 6,
+	margin: 10,
+  },
+  submitButton: {
+	alignItems: 'center',
+    backgroundColor: '#d7945f',
+    padding: 10,
+	elevation: 6,
+	marginTop: 0
+  },
+  chatButton: {
+	alignItems: 'center',
+    backgroundColor: '#d7945f',
+    padding: 10,
+	elevation: 6,
+	margin: 10,
   },
   card: {
 	backgroundColor: '#e3aa6b',
