@@ -19,6 +19,7 @@ import signOutLocal from "../utils/hooks/signOutLocal";
 import { getLocalUser } from "../utils/hooks/getLocalUser";
 import { saveUser } from "../utils/hooks/saveUser";
 import { catmarkers } from "../assets/catmarkers/catmarkers";
+import CatOfTheDay from "../components/CatOfTheDay";
 
 const auth = getAuth();
 
@@ -67,7 +68,15 @@ const WelcomeScreen = () => {
 			<View tw="items-center top-28">
 				<Text
 					onPress={() => LottieRef.current?.play()}
-					style={{ fontFamily: "Pacifico-Regular" }}
+					style={{
+						fontFamily: "Pacifico-Regular",
+						textShadowColor: "white",
+						textShadowRadius: 1,
+						textShadowOffset: {
+							width: 4,
+							height: 4,
+						},
+					}}
 					tw="text-6xl pt-7 z-10 absolute text-purple-900 self-center"
 				>
 					Purrviews
@@ -85,27 +94,20 @@ const WelcomeScreen = () => {
 						autoPlay={isLoading}
 					/>
 				</TouchableWithoutFeedback>
-				{local.username && (
-					<Text
-						tw="text-4xl pt-3 text-purple-900 top-20"
-						style={{ fontFamily: "Pacifico-Regular" }}
-					>
-						Welcome {local.username}!
-					</Text>
-				)}
 			</View>
 			{isSignUp ? (
 				<SignUpScreen setSignUp={setSignUp} isLoading={isLoading} />
 			) : user ? (
-				<View tw="h-full bottom-0 absolute justify-center items-center">
-					{local.avatar && (
-						<Image
-							source={{ uri: local.avatar }}
-							tw="w-40 h-40"
-							resizeMode="contain"
-						/>
-					)}
-
+				// <View tw="h-full bottom-0 absolute justify-center items-center">
+				// 	{local.avatar && (
+				// 		<Image
+				// 			source={{ uri: local.avatar }}
+				// 			tw="w-40 h-40"
+				// 			resizeMode="contain"
+				// 		/>
+				// 	)}
+				<View tw="h-4/6 w-full absolute items-center bottom-0">
+					<CatOfTheDay />
 					<TouchableOpacity
 						tw="w-44 h-12 bg-white rounded-md bottom-3 items-center absolute justify-center"
 						style={{ elevation: 6 }}
@@ -116,6 +118,24 @@ const WelcomeScreen = () => {
 					>
 						<Text tw="text-3xl">Sign Out</Text>
 					</TouchableOpacity>
+					{local.username && (
+						<Text
+							tw="text-4xl p-10 text-purple-900"
+							style={{
+								fontFamily: "Pacifico-Regular",
+								fontSize: 40,
+								color: "#FFF",
+								textShadowColor: "black",
+								textShadowRadius: 10,
+								textShadowOffset: {
+									width: 2,
+									height: 2,
+								},
+							}}
+						>
+							Welcome {local.username}!{" "}
+						</Text>
+					)}
 				</View>
 			) : (
 				<SignInScreen setSignUp={setSignUp} LottieRef={LottieRef} />

@@ -8,10 +8,14 @@ const Stack = createStackNavigator();
 
 export default function UserStack() {
     return (
-        <NavigationContainer>
-            <Stack.Navigator>
-                <Stack.Screen name="Welcome" component={WelcomeScreen} />
-            </Stack.Navigator>
-        </NavigationContainer>
-    );
+			<NavigationContainer>
+				<Stack.Navigator
+					screenOptions={{
+						headerShown: false,
+					}}
+				>
+					<Stack.Screen name="Welcome" component={WelcomeScreen} />
+				</Stack.Navigator>
+			</NavigationContainer>
+		);
 }

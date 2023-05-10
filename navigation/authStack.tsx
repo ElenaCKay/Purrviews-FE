@@ -7,11 +7,15 @@ const Stack = createStackNavigator();
 
 export default function AuthStack() {
     return (
-        <NavigationContainer>
-            <Stack.Navigator>
-                <Stack.Screen name="Welcome" component={Tab} />
-                <Stack.Screen name="User Profile" component={UserProfile} />
-            </Stack.Navigator>
-        </NavigationContainer>
-    );
+			<NavigationContainer>
+				<Stack.Navigator
+					screenOptions={{
+						headerShown: false,
+					}}
+				>
+					<Stack.Screen name="Welcome" component={Tab} />
+					<Stack.Screen name="User Profile" component={UserProfile} />
+				</Stack.Navigator>
+			</NavigationContainer>
+		);
 }

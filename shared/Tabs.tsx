@@ -1,6 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Image } from "react-native";
-import { getAuth } from "firebase/auth";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import WelcomeScreen from "../screens/Welcome";
 import UserScreen from "../screens/User";
@@ -8,9 +7,6 @@ import Map from "../screens/Map";
 import Posts from "../screens/Posts";
 import UsersList from "../screens/UsersList";
 import LostAndFound from "../screens/LostandFound";
-import { getLocalUser } from "../utils/hooks/getLocalUser";
-import { useAuthentication } from "../utils/useAuthentication";
-import { catmarkers } from "../assets/catmarkers/catmarkers";
 
 const Tab = createBottomTabNavigator();
 
