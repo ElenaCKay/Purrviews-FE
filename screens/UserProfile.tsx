@@ -13,7 +13,6 @@ export default function UserProfile({ route }) {
     const { username } = route.params;
     const { userProfile, isLoading, isError } = useUserProfile(username);
     const [active, setActive] = useState(0);
-
     const { width, height } = Dimensions.get("window");
 
    const onchange = (nativeEvent: NativeScrollEvent) => {
