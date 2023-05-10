@@ -17,11 +17,6 @@ const Chat = ({route, navigation}) => {
         cats: string;
     }
 
-    interface chatUserType {
-        username: string,
-        socketId: string
-    }
-
     interface msgType {
         username: string,
         body: string,
@@ -30,7 +25,6 @@ const Chat = ({route, navigation}) => {
     }
 
     const [user, setUser] = useState<userType>(null);
-    const [chatUsers, setChatUsers] = useState<chatUserType[]>([]);
     const [message, setMessage] = useState<string>('');
     const [messageLog, setMesasgeLog] = useState<msgType[]>([]);
     const [sending, setSending] = useState<boolean>(false);
@@ -64,7 +58,7 @@ const Chat = ({route, navigation}) => {
     }), [user];
 
     useEffect(() => {
-        socket.on('newUserRes', (chatUsersArr: chatUserType[]) => setChatUsers(chatUsersArr));
+        socket.on('newUserRes', (msg: string) => console.log(msg));
     }, [socket]);
 
     useEffect(() => {
