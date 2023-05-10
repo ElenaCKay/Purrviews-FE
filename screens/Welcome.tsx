@@ -66,6 +66,23 @@ const WelcomeScreen = () => {
 	) : (
 		<View tw="items-center flex-1 h-full bg-orange-200">
 			<View tw="items-center top-28">
+			{local.username && (
+						<Text
+							style={{
+								fontFamily: "Pacifico-Regular",
+								fontSize: 15,
+								color: "#FFF",
+								textShadowColor: "black",
+								textShadowRadius: 10,
+								textShadowOffset: {
+									width: 2,
+									height: 2,
+								},
+							}} tw="w-20 h-15 bottom-3 items-center absolute justify-center"
+						>
+							Welcome {local.username}!{" "}
+						</Text>
+					)}
 				<Text
 					onPress={() => LottieRef.current?.play()}
 					style={{
@@ -101,33 +118,15 @@ const WelcomeScreen = () => {
 				<View tw="h-4/6 w-full absolute items-center bottom-0">
 					<CatOfTheDay />
 					<TouchableOpacity
-						tw="w-44 h-12 bg-white rounded-md bottom-3 items-center absolute justify-center"
+						tw="w-20 h-10 bg-white rounded-md bottom-3 items-center absolute justify-center"
 						style={{ elevation: 6 }}
 						onPress={() => {
 							signOutLocal();
 							signOut(auth);
 						}}
 					>
-						<Text tw="text-3xl">Sign Out</Text>
+						<Text tw="">Sign Out</Text>
 					</TouchableOpacity>
-					{local.username && (
-						<Text
-							tw="text-4xl p-10 text-purple-900"
-							style={{
-								fontFamily: "Pacifico-Regular",
-								fontSize: 40,
-								color: "#FFF",
-								textShadowColor: "black",
-								textShadowRadius: 10,
-								textShadowOffset: {
-									width: 2,
-									height: 2,
-								},
-							}}
-						>
-							Welcome {local.username}!{" "}
-						</Text>
-					)}
 				</View>
 			) : (
 				<SignInScreen setSignUp={setSignUp} LottieRef={LottieRef} />
