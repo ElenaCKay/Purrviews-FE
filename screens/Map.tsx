@@ -13,7 +13,7 @@ import { postPost } from "../api";
 
 const auth = getAuth();
 
-export default function Map(): JSX.Element {
+export default function Map({navigation}): JSX.Element {
 	const user = auth.currentUser;
 	const { postsData, setPostsData, isLoading, isError } = usePosts();
 	const { userLocation, locationPerm } = useUserLocation();
@@ -107,6 +107,15 @@ export default function Map(): JSX.Element {
 					borderRadius: 100,
 					marginRight: 10
 				}} onPress={() => setPostModal(true)}></Button>
+			</View>
+			<View tw="absolute top-10 self-start">
+				<Button buttonStyle={{
+					borderRadius: 100,
+					marginLeft: 10
+				}} title="List View"
+				onPress={() =>
+				  navigation.navigate('Posts')
+				}></Button>
 			</View>
 		</View>
 	);
