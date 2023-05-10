@@ -65,7 +65,7 @@ export default function UserProfile({ route }) {
                 {userProfile.cats.length === 0 ? (
                     <View>
                         <Text
-                            tw="text-3xl m-3 mt-10 text-center pt-6 text-purple-900 text-3xl underline text-center"
+                            tw="text-3xl m-3 mt-10 text-center pt-6 text-black-900 text-3xl text-center"
                             style={{ fontFamily: "Pacifico-Regular" }}
                         >
                             No Cats Available...
