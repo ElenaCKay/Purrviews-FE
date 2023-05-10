@@ -20,6 +20,15 @@ export const getLostCats = () => {
     return pvApi.get("/cats/missing").then((res) => res.data.users);
 };
 
+export const postUser = (user) => {
+    return pvApi.post("/users", user).then((res) => res.data.user);
+};
 export const postPost = (newPost) => {
     return pvApi.post("/posts", newPost).then((res) => res.data.post);
+};
+
+export const postCat = (username, cat: any) => {
+    return pvApi.post(`/users/${username}/cats`, cat).then((res) => {
+        console.log(res.data);
+    });
 };

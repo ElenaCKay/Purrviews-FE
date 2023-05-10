@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import MapView, { Callout, Marker } from "react-native-maps";
 import { View, Image, Text, Modal } from "react-native";
 import usePosts from "../utils/hooks/usePosts";
+
 import useUserLocation from "../utils/hooks/userUserLocation";
 import Icon from "react-native-vector-icons/FontAwesome";
 import { Button, Input } from "react-native-elements";
@@ -12,7 +13,7 @@ import { postPost } from "../api";
 
 const auth = getAuth();
 
-export default function Map(): JSX.Element {
+export default function Map({navigation}): JSX.Element {
 	const user = auth.currentUser;
 	const { postsData, setPostsData, isLoading, isError } = usePosts();
 	const { userLocation, locationPerm } = useUserLocation();
@@ -67,6 +68,7 @@ export default function Map(): JSX.Element {
 
 	if (isError) return <Text>Something Went Wrong!</Text>;
 
+
 	return ( isLoading || !locationPerm ? <View>
 		<Text>Loading...</Text>
 	</View> :
@@ -105,6 +107,15 @@ export default function Map(): JSX.Element {
 					borderRadius: 100,
 					marginRight: 10
 				}} onPress={() => setPostModal(true)}></Button>
+			</View>
+			<View tw="absolute top-10 self-start">
+				<Button buttonStyle={{
+					borderRadius: 100,
+					marginLeft: 10
+				}} title="List View"
+				onPress={() =>
+				  navigation.navigate('Posts')
+				}></Button>
 			</View>
 		</View>
 	);
