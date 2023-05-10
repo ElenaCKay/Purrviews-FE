@@ -1,8 +1,6 @@
-import React from "react";
-import { StyleSheet, Text, View, Image } from "react-native";
-import { useAuthentication } from "../utils/useAuthentication";
-import { Button } from "react-native-elements";
-import { signOut, getAuth } from "firebase/auth";
+import React, { useEffect, useRef, useState } from "react";
+import { Image } from "react-native";
+import { getAuth } from "firebase/auth";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import WelcomeScreen from "../screens/Welcome";
 import UserScreen from "../screens/User";
@@ -10,14 +8,17 @@ import Map from "../screens/Map";
 import Posts from "../screens/Posts";
 import UsersList from "../screens/UsersList";
 import LostAndFound from "../screens/LostandFound";
+import { getLocalUser } from "../utils/hooks/getLocalUser";
 
 const Tab = createBottomTabNavigator();
 
 const auth = getAuth();
 
 export default function Tabs() {
-    const { user } = useAuthentication();
-
+	const user = auth.currentUser;
+	const [localUser, setLocalUser] = useState({
+		avatar: "./assets/pet-care.png",
+	});
 
     return (
         <Tab.Navigator initialRouteName="Home" screenOptions={{ headerShown: false }}>

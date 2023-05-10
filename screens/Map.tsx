@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import MapView, { Callout, Marker } from "react-native-maps";
 import { View, Image, Text, Modal } from "react-native";
 import usePosts from "../utils/hooks/usePosts";
+
 import useUserLocation from "../utils/hooks/userUserLocation";
 import Icon from "react-native-vector-icons/FontAwesome";
 import { Button, Input } from "react-native-elements";
@@ -66,6 +67,7 @@ export default function Map({navigation}): JSX.Element {
 	}
 
 	if (isError) return <Text>Something Went Wrong!</Text>;
+
 
 	return ( isLoading || !locationPerm ? <View>
 		<Text>Loading...</Text>

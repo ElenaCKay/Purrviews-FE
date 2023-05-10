@@ -12,18 +12,19 @@ import Splash from "../components/Splash";
 import LottieView from "lottie-react-native";
 import SignInScreen from "../components/SignInScreen";
 import SignUpScreen from "../components/SignUpScreen";
-import fetchFonts from "../assets/hooks/useFonts";
+import fetchFonts from "../utils/hooks/useFonts";
 import { getUsersByUsername } from "../api";
-import { autoLogin } from "../assets/hooks/autoLogin";
-import signOutLocal from "../assets/hooks/signOutLocal";
-import { getLocalUser } from "../assets/hooks/getLocalUser";
-import { saveUser } from "../assets/hooks/saveUser";
+import { autoLogin } from "../utils/hooks/autoLogin";
+import signOutLocal from "../utils/hooks/signOutLocal";
+import { getLocalUser } from "../utils/hooks/getLocalUser";
+import { saveUser } from "../utils/hooks/saveUser";
 import { catmarkers } from "../assets/catmarkers/catmarkers";
 
 const auth = getAuth();
 
 const WelcomeScreen = () => {
 	const LottieRef = useRef(null);
+	const [login, setLogin] = useState(false);
 	const { user } = useAuthentication();
 	const [isSignUp, setSignUp] = useState(false);
 	const [err, setErr] = useState("");
@@ -57,7 +58,7 @@ const WelcomeScreen = () => {
 			setIsLoading(false);
 			LottieRef.current?.play();
 		});
-	}, [user]);
+	}, [user, login]);
 
 	return isLoading ? (
 		<Splash />
@@ -84,15 +85,19 @@ const WelcomeScreen = () => {
 						autoPlay={isLoading}
 					/>
 				</TouchableWithoutFeedback>
+				{local.username && (
+					<Text
+						tw="text-4xl pt-3 text-purple-900 top-20"
+						style={{ fontFamily: "Pacifico-Regular" }}
+					>
+						Welcome {local.username}!
+					</Text>
+				)}
 			</View>
 			{isSignUp ? (
-				<SignUpScreen
-					setSignUp={setSignUp}
-					setIsLoading={setIsLoading}
-					isLoading={isLoading}
-				/>
+				<SignUpScreen setSignUp={setSignUp} isLoading={isLoading} />
 			) : user ? (
-				<View tw="h-full bottom-0 absolute justify-center  items-center">
+				<View tw="h-full bottom-0 absolute justify-center items-center">
 					{local.avatar && (
 						<Image
 							source={{ uri: local.avatar }}
@@ -100,14 +105,9 @@ const WelcomeScreen = () => {
 							resizeMode="contain"
 						/>
 					)}
-					<Text
-						tw="text-4xl pt-3 text-purple-900"
-						style={{ fontFamily: "Pacifico-Regular" }}
-					>
-						Welcome {local.username}!
-					</Text>
+
 					<TouchableOpacity
-						tw="w-3/6 h-10 bg-white rounded-md bottom-3 items-center absolute"
+						tw="w-44 h-12 bg-white rounded-md bottom-3 items-center absolute justify-center"
 						style={{ elevation: 6 }}
 						onPress={() => {
 							signOutLocal();
