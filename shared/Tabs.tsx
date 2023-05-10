@@ -1,34 +1,37 @@
-import React, { useRef } from "react";
-import {
-	StyleSheet,
-	Text,
-	View,
-	Image,
-	TouchableWithoutFeedback,
-} from "react-native";
-import { useAuthentication } from "../utils/useAuthentication";
-import { Button } from "react-native-elements";
-import { signOut, getAuth } from "firebase/auth";
+import React, { useEffect, useRef, useState } from "react";
+import { Image } from "react-native";
+import { getAuth } from "firebase/auth";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import WelcomeScreen from "../screens/Welcome";
 import UserScreen from "../screens/User";
 import Map from "../screens/Map";
 import UsersList from "../screens/UsersList";
 import LostAndFound from "../screens/LostandFound";
-import LottieView from "lottie-react-native";
+import { getLocalUser } from "../utils/hooks/getLocalUser";
 
 const Tab = createBottomTabNavigator();
 
 const auth = getAuth();
 
 export default function Tabs() {
-	const { user } = useAuthentication();
-	const LottieRef = useRef(null);
+	const user = auth.currentUser;
+	const [localUser, setLocalUser] = useState({
+		avatar: "./assets/pet-care.png",
+	});
 
+	useEffect(() => {
+		user &&
+			getLocalUser().then((local) =>
+				setLocalUser({ ...localUser, avatar: local.avatar })
+			);
+	}, []);
 	return (
 		<Tab.Navigator
-			initialRouteName="Home"
-			screenOptions={{ headerShown: false }}
+			screenOptions={{
+				headerShown: false,
+				tabBarActiveBackgroundColor: "purple",
+				tabBarStyle: { backgroundColor: "#d7945f" },
+			}}
 		>
 			<Tab.Screen
 				name="Home"
@@ -38,7 +41,7 @@ export default function Tabs() {
 						return (
 							<Image
 								style={{ width: 45, height: 45 }}
-								source={require("../assets/catlogo.png")}
+								source={require("../assets/animal-shelter.png")}
 							/>
 						);
 					},
@@ -53,12 +56,10 @@ export default function Tabs() {
 				options={{
 					tabBarIcon: () => {
 						return (
-							<LottieView
-								ref={LottieRef}
-								style={{ width: 65, height: 65 }}
-								source={require("../assets/Lottie/47956-area-map.json")}
-								autoPlay={false}
-								loop={false}
+							<Image
+								tw="p-4"
+								style={{ width: 50, height: 50 }}
+								source={require("../assets/pawlocations.png")}
 							/>
 						);
 					},
@@ -66,7 +67,6 @@ export default function Tabs() {
 						display: "none",
 					},
 				}}
-				listeners={{ tabPress: () => LottieRef.current?.play() }}
 			/>
 			<Tab.Screen
 				name="Lost & Found"
@@ -75,8 +75,8 @@ export default function Tabs() {
 					tabBarIcon: () => {
 						return (
 							<Image
-								style={{ width: 40, height: 40 }}
-								source={require("../assets/landf.png")}
+								style={{ width: 50, height: 50 }}
+								source={require("../assets/pawfind.png")}
 							/>
 						);
 					},
@@ -92,8 +92,8 @@ export default function Tabs() {
 					tabBarIcon: () => {
 						return (
 							<Image
-								style={{ width: 40, height: 40 }}
-								source={require("../assets/play-with-pet.png")}
+								style={{ width: 50, height: 50 }}
+								source={require("../assets/pet-care.png")}
 							/>
 						);
 					},
@@ -108,9 +108,9 @@ export default function Tabs() {
 				options={{
 					tabBarIcon: () => {
 						return (
-							<LottieView
-								style={{ width: 65, height: 65 }}
-								source={require("../assets/Lottie/112657-user.json")}
+							<Image
+								style={{ width: 50, height: 50 }}
+								source={{ uri: localUser.avatar }}
 							/>
 						);
 					},

@@ -12,17 +12,17 @@ export default function App() {
 
 	return (
 		<NavigationContainer>
-			<Stack.Navigator
-				screenOptions={{
-					headerShown: false,
-				}}
-			>
-				{!user ? (
+			{!user ? (
+				<Stack.Navigator
+					screenOptions={{
+						headerShown: false,
+					}}
+				>
 					<Stack.Screen name="Welcome" component={WelcomeScreen} />
-				) : (
-					<Stack.Screen name="Welcome" component={Tab} />
-				)}
-			</Stack.Navigator>
+				</Stack.Navigator>
+			) : (
+				<Tab />
+			)}
 		</NavigationContainer>
 	);
 }

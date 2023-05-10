@@ -20,16 +20,9 @@ import { catmarkers } from "../assets/catmarkers/catmarkers";
 import { postCat, postUser } from "../api";
 import AddCat from "./AddCat";
 import Animated, { SlideInDown } from "react-native-reanimated";
-import { saveUser } from "../assets/hooks/saveUser";
-import signOutLocal from "../assets/hooks/signOutLocal";
+import { saveUser } from "../utils/hooks/saveUser";
 
-const SignUpScreen = ({
-	setSignUp,
-	setIsLoading,
-	isLoading,
-	setLocal,
-	setLogin,
-}) => {
+const SignUpScreen = ({ setSignUp, isLoading }) => {
 	const [addCat, setAddCat] = useState(false);
 	const [active, setActive] = useState(0);
 	const [err, setErr] = useState("");
@@ -61,20 +54,15 @@ const SignUpScreen = ({
 		else
 			createUserWithEmailAndPassword(auth, firebase.email, firebase.password)
 				.then(() => {
-					setApiUserInfo({ ...apiUserInfo, username: firebase.displayName });
 					updateProfile(auth.currentUser, {
 						displayName: firebase.displayName,
 					});
-				})
-				.then(() => {
 					saveUser(apiUserInfo);
 					postUser(apiUserInfo);
-					setLocal(apiUserInfo);
 				})
 				.then(() =>
 					apiUserInfo.cats.forEach((cat) => postCat(apiUserInfo.username, cat))
 				)
-				.then(() => setLogin(true))
 				.catch((error) => setErr(err + error.message));
 	}
 
@@ -105,9 +93,9 @@ const SignUpScreen = ({
 	) : (
 		<Animated.View
 			entering={SlideInDown}
-			tw="flex-1 w-full top-10 absolute bottom-0 border-y-2 border-orange-400 bg-orange-300 items-center"
+			tw="flex-1 w-full absolute bottom-0 border-y-2 border-orange-400 bg-orange-300 items-center"
 		>
-			<ScrollView>
+			<ScrollView tw="content-center">
 				<Text
 					tw={
 						err
@@ -119,12 +107,12 @@ const SignUpScreen = ({
 				</Text>
 				<Text
 					style={{ fontFamily: "Pacifico-Regular" }}
-					tw="text-5xl pt-4 text-purple-900 underline"
+					tw="text-center text-5xl pt-4 text-purple-900 underline"
 				>
 					Sign Up
 				</Text>
 				<TouchableOpacity
-					tw="mb-6 p-2 bg-gray-300 rounded-3xl items-center"
+					tw="mb-6 p-2 bg-gray-300 rounded-3xl self-center w-44 h-44"
 					style={{ elevation: 6 }}
 					onPress={pickImage}
 				>
@@ -138,7 +126,7 @@ const SignUpScreen = ({
 				<Input
 					style={{ backgroundColor: "#d7945f" }}
 					placeholder="Username"
-					value={firebase.displayName}
+					value={firebase.displayName && apiUserInfo.username}
 					onChangeText={(text) => {
 						setApiUserInfo({ ...apiUserInfo, username: text });
 						setFirebase({ ...firebase, displayName: text });
@@ -161,7 +149,7 @@ const SignUpScreen = ({
 					leftIcon={<Icon name="key" size={16} />}
 				/>
 				<TextInput
-					tw=" w-11/12 h-16"
+					tw="ml-8 w-full h-16"
 					style={{ backgroundColor: "#d7945f" }}
 					placeholder="Your Description Here"
 					value={apiUserInfo.description}
@@ -169,7 +157,7 @@ const SignUpScreen = ({
 						setApiUserInfo({ ...apiUserInfo, description: text })
 					}
 				/>
-				<ScrollView
+				{/* <ScrollView
 					tw="mt-4 p-4 w-full text-white"
 					style={{ backgroundColor: "#d7945f" }}
 					onScroll={({ nativeEvent }) => onchange(nativeEvent)}
@@ -206,8 +194,8 @@ const SignUpScreen = ({
 							</TouchableOpacity>
 						);
 					})}
-				</ScrollView>
-				<View tw="flex-row self-center">
+				</ScrollView> */
+				/* <View tw="flex-row self-center">
 					{apiUserInfo.cats.map((e, index) => (
 						<Text
 							tw=" -mt-10"
@@ -221,7 +209,7 @@ const SignUpScreen = ({
 							&#x25cf;
 						</Text>
 					))}
-				</View>
+				</View> */}
 
 				<View tw="flex-row space-x-4">
 					<TouchableOpacity
@@ -239,14 +227,14 @@ const SignUpScreen = ({
 						<Text tw="text-3xl">Sign Up</Text>
 					</TouchableOpacity>
 				</View>
-				{addCat && (
+				{/* {addCat && (
 					<AddCat
 						setAddCat={setAddCat}
 						addCat={addCat}
 						setApiUserInfo={setApiUserInfo}
 						apiUserInfo={apiUserInfo}
 					/>
-				)}
+				)} */}
 			</ScrollView>
 		</Animated.View>
 	);

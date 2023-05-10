@@ -1,17 +1,6 @@
 import useGetLostCats from "../utils/hooks/useGetLostCats";
 import React, { useCallback, useEffect, useState } from "react";
-import {
-    StyleSheet,
-    Text,
-    View,
-    Image,
-    Button,
-    TouchableOpacity,
-    ScrollView,
-    Dimensions,
-    NativeScrollEvent,
-} from "react-native";
-import { Card } from "@rneui/themed";
+import { Text, View, Image, TouchableOpacity, ScrollView } from "react-native";
 
 export default function LostAndFound() {
     const { lostCats, isLoading, isError } = useGetLostCats();
