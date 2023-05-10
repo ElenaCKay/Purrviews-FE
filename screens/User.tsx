@@ -14,6 +14,7 @@ import {
 import * as ImagePicker from "expo-image-picker";
 import { catmarkers } from "../assets/catmarkers/catmarkers";
 import useUserProfile from "../utils/hooks/useUserProfile";
+import AddCat from "../components/AddCat";
 // &#x25cf; - big dot
 
 const auth = getAuth();
@@ -25,13 +26,20 @@ export default function UserScreen() {
     const [active, setActive] = useState(0);
     const user = auth.currentUser;
     const username = user.displayName;
+    const [addCat, setAddCat] = useState(false);
+    const [apiUserInfo, setApiUserInfo] = useState({
+        username: "",
+        description: "",
+        avatar: catmarkers[Math.floor(Math.random() * catmarkers.length)],
+        cats: [],
+    });
 
     useEffect(() => {
         (async () => {
             const galleryStatus = await ImagePicker.requestMediaLibraryPermissionsAsync();
             setGalleryPerm(galleryStatus.status === "granted");
         })();
-    }, []);
+    }, [addCat]);
 
     const pickImage = async () => {
         const result = await ImagePicker.launchImageLibraryAsync({
@@ -65,8 +73,6 @@ export default function UserScreen() {
 
     const userProfile = userProfileState.userProfile;
 
-    console.log(userProfile, "I AM THE USER PROFILE!!!!!");
-
     const onchange = (nativeEvent: NativeScrollEvent) => {
         const { contentOffset, layoutMeasurement } = nativeEvent;
         if (contentOffset) {
@@ -91,6 +97,17 @@ export default function UserScreen() {
                 showsHorizontalScrollIndicator={false}
                 horizontal
             >
+                {userProfile.cats.length < 4 && (
+                    <TouchableOpacity
+                        tw="h-60  mr-6 w-72 bg-gray-300 rounded-3xl justify-center items-center align-middle"
+                        style={{ elevation: 6 }}
+                        onPress={() => setAddCat(!addCat)}
+                    >
+                        <Text tw=" text-gray-500 text-4xl absolute z-20 top-0">Add Cat</Text>
+                        <Text tw=" text-gray-500 text-4xl absolute z-20 bottom-0">(Max 4)</Text>
+                        <Text tw="text-5xl">+</Text>
+                    </TouchableOpacity>
+                )}
                 {userProfile.cats.length === 0 ? (
                     <View>
                         <Text>This user has no cats</Text>
@@ -99,12 +116,12 @@ export default function UserScreen() {
                     userProfile.cats.map((e, index) => (
                         <View key={e} tw="flex-row align-middle justify-center" style={{ width: width }}>
                             <View tw="flex-col text-center">
-                                <Image source={{ uri: e }} tw="h-60 w-72" />
+                                <Image source={{ uri: e.cat_img }} tw="h-60 w-72" />
                                 <View>
-                                    <Text tw="text-center">Name:</Text>
-                                    <Text tw="text-center">Age:</Text>
-                                    <Text tw="text-center">Breed:</Text>
-                                    <Text tw="text-center">Characteristics:</Text>
+                                    <Text tw="text-center">Name: {e.cat_name}</Text>
+                                    <Text tw="text-center">Age: {e.age}</Text>
+                                    <Text tw="text-center">Breed: {e.breed}</Text>
+                                    <Text tw="text-center">Characteristics: {e.characteristics[0]}</Text>
                                 </View>
                             </View>
                         </View>
@@ -122,6 +139,25 @@ export default function UserScreen() {
                     </Text>
                 ))}
             </View>
+            <View tw="flex-row self-center">
+                {apiUserInfo.cats.map((e, index) => (
+                    <Text
+                        tw=" -mt-10"
+                        key={index}
+                        style={active === index ? { color: "grey", margin: 3 } : { color: "black", margin: 3 }}
+                    >
+                        &#x25cf;
+                    </Text>
+                ))}
+            </View>
+            {addCat && (
+                <AddCat
+                    setAddCat={setAddCat}
+                    addCat={addCat}
+                    setApiUserInfo={setApiUserInfo}
+                    apiUserInfo={apiUserInfo}
+                />
+            )}
             <Button title="Sign Out" onPress={() => signOut(auth)} />
         </View>
     );

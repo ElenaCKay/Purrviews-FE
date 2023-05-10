@@ -27,8 +27,8 @@ export const postPost = (newPost) => {
     return pvApi.post("/posts", newPost).then((res) => res.data.post);
 };
 
-export const postCat = (username, cat) => {
-    return pvApi.post(`/users/${username}`).then((res) => {
+export const postCat = (username, cat: any) => {
+    return pvApi.post(`/users/${username}/cats`, cat).then((res) => {
         console.log(res.data);
     });
 };
