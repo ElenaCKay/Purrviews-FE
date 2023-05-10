@@ -16,7 +16,6 @@ export default function AuthStack() {
 			>
 				<Stack.Screen name="Welcome" component={Tab} />
 				<Stack.Screen name="User Profile" component={UserProfile} />
-				<Stack.Screen name="Chat" component={Chat} />
 			</Stack.Navigator>
 		</NavigationContainer>
 	);

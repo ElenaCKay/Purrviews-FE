@@ -16,11 +16,11 @@ export default function UsersList({navigation}) {
     }
 
     const goToChat = (room: string) => {
-        navigation.navigate("Chat", {room});
+        navigation.navigate("Welcome", {screen: 'Chat', params: {room}});
     }
 
     return isLoading ? (
-        <View>
+        <View tw="flex items-center text-center mt-10">
             <Text>Loading...</Text>
         </View>
     ) : (

@@ -48,6 +48,10 @@ export default function Posts({navigation}) {
 		setPostModal(!postModal);
 	}
 
+	const goToChat = (room: string) => {
+		navigation.navigate("Welcome", {screen: 'Chat', params: {room}});
+	}
+
 	const pickImage = () => {
 		ImagePicker.launchImageLibraryAsync({
 			mediaTypes: ImagePicker.MediaTypeOptions.Images,
@@ -74,7 +78,7 @@ export default function Posts({navigation}) {
 	}
 
   if (isError) return <Text>Something Went Wrong!</Text>;
-  if (isLoading) return <Text>Loading...</Text>
+  if (isLoading) return <View tw="flex items-center text-center mt-10"><Text>Loading...</Text></View>
 
   return (
     <ScrollView tw="bg-[#e9d2b0] mt-6">
@@ -100,7 +104,7 @@ export default function Posts({navigation}) {
               <Text tw="text-center">{post.description}</Text>
 				<Text tw="text-center">{post.username} {post.posted_at.slice(0,16).replace('T', ' ')}</Text>
 				<Text tw="text-center"><Icon name="thumbs-o-up" size={16}/> {post.votes}</Text>
-				<TouchableOpacity style={styles.button}><Text>Chat</Text></TouchableOpacity>
+				<TouchableOpacity style={styles.button} onPress={() => goToChat(post.username)}><Text>Chat</Text></TouchableOpacity>
             </Card>
           ))}
         </View>
