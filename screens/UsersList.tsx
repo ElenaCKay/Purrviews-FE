@@ -15,8 +15,8 @@ export default function UsersList({navigation}) {
         navigation.navigate("User Profile", { username: username });
     }
 
-    const goToChat = () => {
-        navigation.navigate("Chat");
+    const goToChat = (room: string) => {
+        navigation.navigate("Chat", {room});
     }
 
     return isLoading ? (
@@ -34,7 +34,7 @@ export default function UsersList({navigation}) {
                     <Text tw="font-bold text-center">{user.username}</Text>
                     <Text tw="font-semibold text-center">{user.description}</Text>
                     <Button
-                        onPress={goToChat}
+                        onPress={() => goToChat(user.username)}
                         title="Chat"
                         color="#d7945f"
                         accessibilityLabel={`Click this button to chat with ${user.username}`}
