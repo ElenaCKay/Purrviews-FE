@@ -2,7 +2,7 @@ import React, { useContext, useState, useEffect, useRef } from "react";
 import { ScrollView, TouchableOpacity, View } from "react-native";
 import { SocketContext } from "../utils/contexts/socket";
 import { Button, Input, Text } from "react-native-elements";
-import { getLocalUser } from "../assets/hooks/getLocalUser";
+import { getLocalUser } from "../utils/hooks/getLocalUser";
 import useUsersList from "../utils/hooks/useUsersList";
 
 const Chat = ({route, navigation}) => {
