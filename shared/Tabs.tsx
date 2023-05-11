@@ -8,6 +8,7 @@ import Posts from "../screens/Posts";
 import UsersList from "../screens/UsersList";
 import LostAndFound from "../screens/LostandFound";
 import Chat from "../screens/Chat";
+import UserProfile from "../screens/UserProfile";
 
 const Tab = createBottomTabNavigator();
 
@@ -139,6 +140,13 @@ export default function Tabs() {
 					tabBarLabelStyle: {
 						display: "none",
 					},
+				}}
+			/>
+			<Tab.Screen
+				name="User Profile"
+				component={UserProfile}
+				options={{
+					tabBarButton: () => null
 				}}
 			/>
 		</Tab.Navigator>
