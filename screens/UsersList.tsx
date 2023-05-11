@@ -3,9 +3,9 @@ import { StyleSheet, Text, View, Image, ScrollView, Button, TouchableOpacity } f
 import useUsersList from "../utils/hooks/useUsersList";
 import { Card } from "@rneui/themed";
 import { StackScreenProps } from "@react-navigation/stack";
-import {useState} from 'react';
+import { useState } from "react";
 
-export default function UsersList({navigation}) {
+export default function UsersList({ navigation }) {
     const [userProfileUsername, setUserProfileUsername] = useState("");
     const { userListData, isLoading, isError } = useUsersList();
     if (isError) return <Text>Something Went Wrong!</Text>;
@@ -13,31 +13,35 @@ export default function UsersList({navigation}) {
     const onPressFunction = (username) => {
         setUserProfileUsername(username);
         navigation.navigate("User Profile", { username: username });
-    }
+    };
 
     return isLoading ? (
         <View>
             <Text>Loading...</Text>
         </View>
     ) : (
-        <ScrollView tw="bg-[#e9d2b0]">
-             <Text className=" text-3xl font-bold m-3  text-center">Users</Text>
+        <ScrollView tw="bg-orange-200">
+            <Text
+                tw="text-3xl m-3 mt-10 text-center pt-6 text-purple-900 text-5xl underline text-center"
+                style={{ fontFamily: "Pacifico-Regular" }}
+            >
+                Users
+            </Text>
             {userListData.map((user) => (
-                <Card key={user._id} >
-                    <TouchableOpacity onPress={() => onPressFunction(user.username)}>
-                        <Image source={{ uri: user.avatar }} tw="w-60 h-60 rounded mx-auto" />
+                <View key={user._id} tw="self-center w-5/6 bg-[#d7945f] m-3 border-4 border-[#876243] rounded-md">
+                    <TouchableOpacity tw="pt-4 pb-2 bg-[#876243]" onPress={() => onPressFunction(user.username)}>
+                        <Image source={{ uri: user.avatar }} tw="border-2 w-60 h-60 rounded mx-auto" />
                     </TouchableOpacity>
-                    <Text tw="font-bold text-center">{user.username}</Text>
-                    <Text tw="font-semibold text-center">{user.description}</Text>
-                    <Button
-                        //   onPress={onPressLearnMore}
-                        title="Chat"
-                        color="#d7945f"
-                        accessibilityLabel={`Click this button to chat with ${user.username}`}
-                    />
-                </Card>
+                    <Text tw="basis-1/2 text-xl text-orange-200 font-semibold text-center">{user.username}</Text>
+                    <Text tw="basis-1/2 text-xl font-semibold text-orange-200  text-center">{user.description}</Text>
+                    <TouchableOpacity
+                        tw="self-center w-3/6 m-2 h-10 bg-white rounded-md items-center justify-center bg-yellow-500 border-2"
+                        style={{ elevation: 6 }}
+                    >
+                        <Text tw="text-xl">Contact User</Text>
+                    </TouchableOpacity>
+                </View>
             ))}
         </ScrollView>
     );
 }
-
