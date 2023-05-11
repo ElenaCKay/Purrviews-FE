@@ -1,42 +1,39 @@
 import {
-    StyleSheet,
-    Text,
-    View,
-    Image,
-    Button,
-    TouchableOpacity,
-    ScrollView,
-    Dimensions,
-    NativeScrollEvent,
+	Text,
+	View,
+	Image,
+	ScrollView,
+	Dimensions,
+	NativeScrollEvent,
 } from "react-native";
 import React, { useState } from "react";
 import useUserProfile from "../utils/hooks/useUserProfile";
 
 export default function UserProfile({ route }) {
-    const { username } = route.params;
-    const { userProfile, isLoading, isError } = useUserProfile(username);
-    const [active, setActive] = useState(0);
-    const { width, height } = Dimensions.get("window");
+	const { username } = route.params;
+	const { userProfile, isLoading, isError } = useUserProfile(username);
+	const [active, setActive] = useState(0);
+	const { width, height } = Dimensions.get("window");
 
-    const onchange = (nativeEvent: NativeScrollEvent) => {
-        const { contentOffset, layoutMeasurement } = nativeEvent;
-        if (contentOffset) {
-            const slide = Math.ceil(contentOffset.x / layoutMeasurement.width);
-            if (slide !== active) {
-                setActive(slide);
-            }
-        }
-    };
+	const onchange = (nativeEvent: NativeScrollEvent) => {
+		const { contentOffset, layoutMeasurement } = nativeEvent;
+		if (contentOffset) {
+			const slide = Math.ceil(contentOffset.x / layoutMeasurement.width);
+			if (slide !== active) {
+				setActive(slide);
+			}
+		}
+	};
 
-    if (isError) return <Text>Something Went Wrong!</Text>;
+	if (isError) return <Text>Something Went Wrong!</Text>;
 
-    if (isLoading) {
-        return (
-            <View>
-                <Text>Loading...</Text>
-            </View>
-        );
-    }
+	if (isLoading) {
+		return (
+			<View>
+				<Text>Loading...</Text>
+			</View>
+		);
+	}
 
     return (
         <View tw="flex-1 items-center bg-orange-200">

@@ -1,5 +1,11 @@
-import React from "react";
-import { StyleSheet, Text, View, Image, ScrollView, Button, TouchableOpacity } from "react-native";
+import {
+	Text,
+	View,
+	Image,
+	ScrollView,
+	Button,
+	TouchableOpacity,
+} from "react-native";
 import useUsersList from "../utils/hooks/useUsersList";
 import { Card } from "@rneui/themed";
 import { StackScreenProps } from "@react-navigation/stack";
