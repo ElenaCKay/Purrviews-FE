@@ -34,7 +34,7 @@ const Chat = ({route, navigation}) => {
     const sendMessage = async () => {
         if (message !== '') {
             setSending(true);
-            await socket.emit('message', {username: user.username, body: message, roomId: room, time: Date.now()});
+            await socket.emit('message', {username: user.username, body: message, roomId: room === 'your' ? user.username : room, time: Date.now()});
             setMessage('');
         }
     };
