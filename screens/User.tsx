@@ -151,7 +151,7 @@ export default function UserScreen() {
 				</View>
 			</ScrollView>
 			<TouchableOpacity
-				tw="self-center p-2 rounded-md items-center justify-center bg-yellow-500 border-2 bottom-0 absolute"
+				tw="self-center p-2 rounded-md items-center justify-center bg-yellow-500 border-2 bottom-1 right-1 absolute"
 				onPress={() => {
 					signOutLocal();
 					signOut(auth);

@@ -7,6 +7,7 @@ import {
 	TouchableOpacity,
 } from "react-native";
 import useUsersList from "../utils/hooks/useUsersList";
+import Splash from "../components/Splash";
 
 export default function UsersList({ navigation }) {
     const { userListData, isLoading, isError } = useUsersList();

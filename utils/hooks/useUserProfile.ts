@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { getUsersByUsername } from "../../api";
 
-const useUserProfile = (username) => {
+const useUserProfile = (username: string) => {
     interface catType {
         cat_name: string,
         age: number,
@@ -31,7 +31,7 @@ const useUserProfile = (username) => {
             })
             .catch((err) => setIsError(true))
             .finally(() => setIsLoading(false));
-    }, []);
+    }, [username]);
 
     return { userProfile, setUserProfile, isLoading, isError };
 };
