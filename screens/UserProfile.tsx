@@ -35,7 +35,8 @@ export default function UserProfile({ route }) {
 
     return (
         <View tw="flex-1 items-center bg-orange-200">
-            <Image source={{ uri: userProfile!.avatar }} style={{ width: 300, height: 300 }} />
+            <ScrollView contentContainerStyle={{display: 'flex', alignItems: 'center'}}>
+            <Image source={{ uri: userProfile!.avatar }} tw="w-3/4 h-60 mt-8 rounded" />
             <Text
                 tw="text-3xl m-3 mt-10 text-center pt-6 text-purple-900 text-5xl underline text-center"
                 style={{ fontFamily: "Pacifico-Regular" }}
@@ -51,14 +52,13 @@ export default function UserProfile({ route }) {
             </Text>
             <ScrollView
                 tw="bg-orange-200"
-                style={{ width: width, height: height * 0.35 }}
+                style={{ width: width }}
                 onScroll={({ nativeEvent }) => onchange(nativeEvent)}
                 pagingEnabled
-                showsHorizontalScrollIndicator={false}
                 horizontal
             >
                 {userProfile.cats.length === 0 ? (
-                    <View>
+                    <View tw="flex-1 items-center" style={{ width: width}}>
                         <Text
                             tw="text-3xl m-3 mt-10 text-center pt-6 text-black-900 text-3xl text-center"
                             style={{ fontFamily: "Pacifico-Regular" }}
@@ -70,7 +70,8 @@ export default function UserProfile({ route }) {
                     userProfile!.cats.map((cats, index) => (
                         <View
                             key={cats.cat_id}
-                            tw="self-center w-5/6 bg-[#d7945f] m-8 border-4 border-[#876243] rounded-md"
+                            tw="self-center bg-[#d7945f] border-4 border-black rounded-md"
+                            style={{ width: width}}
                         >
                             <View tw="pt-4 pb-2 bg-[#876243]">
                                 <TouchableOpacity tw="pt-4 pb-2 bg-[#876243]">
@@ -89,6 +90,7 @@ export default function UserProfile({ route }) {
                     ))
                 )}
                 <View tw="bottom-0 flex-row align-middle absolute"></View>
+            </ScrollView>
             </ScrollView>
         </View>
     );
