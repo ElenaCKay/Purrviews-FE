@@ -16,7 +16,7 @@ export default function Map({ navigation }): JSX.Element {
 	if (isError) return <Text>Something Went Wrong!</Text>;
 
 	return isLoading || !locationPerm ? (
-		<View>
+		<View tw="flex items-center text-center mt-10">
 			<Text>Loading...</Text>
 		</View>
 	) : (

@@ -7,7 +7,6 @@ import {
 	TouchableOpacity,
 } from "react-native";
 import useUsersList from "../utils/hooks/useUsersList";
-import { Card } from "@rneui/themed";
 import { StackScreenProps } from "@react-navigation/stack";
 import { useState } from "react";
 
@@ -21,8 +20,12 @@ export default function UsersList({ navigation }) {
         navigation.navigate("User Profile", { username: username });
     };
 
+    const goToChat = (room: string) => {
+        navigation.navigate("Welcome", {screen: 'Chat', params: {room}});
+    }
+
     return isLoading ? (
-        <View>
+        <View tw="flex items-center text-center mt-10">
             <Text>Loading...</Text>
         </View>
     ) : (
@@ -46,6 +49,14 @@ export default function UsersList({ navigation }) {
                     >
                         <Text tw="text-xl">Contact User</Text>
                     </TouchableOpacity>
+                    <Text tw="font-bold text-center">{user.username}</Text>
+                    <Text tw="font-semibold text-center">{user.description}</Text>
+                    <Button
+                        onPress={() => goToChat(user.username)}
+                        title="Chat"
+                        color="#d7945f"
+                        accessibilityLabel={`Click this button to chat with ${user.username}`}
+                    />
                 </View>
             ))}
         </ScrollView>

@@ -1,13 +1,17 @@
 import useGetLostCats from "../utils/hooks/useGetLostCats";
 import { Text, View, Image, TouchableOpacity, ScrollView } from "react-native";
 
-export default function LostAndFound() {
-	const { lostCats, isLoading, isError } = useGetLostCats();
+export default function LostAndFound({navigation}) {
+    const { lostCats, isLoading, isError } = useGetLostCats();
 
 	if (isError) <Text>There has been an error!</Text>;
 
+	const goToChat = (room: string) => {
+        navigation.navigate("Welcome", {screen: 'Chat', params: {room}});
+    }
+
 	return isLoading ? (
-		<View>
+		<View tw="flex items-center text-center mt-10">
 			<Text>Loading...</Text>
 		</View>
 	) : (
@@ -55,6 +59,7 @@ export default function LostAndFound() {
 					<TouchableOpacity
 						tw="self-center w-3/6 m-2 h-10 bg-white rounded-md items-center justify-center bg-yellow-500 border-2"
 						style={{ elevation: 6 }}
+						onPress={() => goToChat(user.username)}
 					>
 						<Text tw="text-xl">Contact User</Text>
 					</TouchableOpacity>

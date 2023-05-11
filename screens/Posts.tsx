@@ -49,6 +49,10 @@ export default function Posts({ navigation }) {
 		setPostModal(!postModal);
 	};
 
+	const goToChat = (room: string) => {
+		navigation.navigate("Welcome", {screen: 'Chat', params: {room}});
+	}
+	
 	const pickImage = () =>
 		chooseImage().then((result) =>
 			setNewPost((currPost) => {
@@ -58,18 +62,6 @@ export default function Posts({ navigation }) {
 				};
 			})
 		);
-
-	// const pickImage = () => {
-	// 	ImagePicker.launchImageLibraryAsync({
-	// 		mediaTypes: ImagePicker.MediaTypeOptions.Images,
-	// 		allowsEditing: true,
-	// 		aspect: [4, 3],
-	// 		base64: true,
-	// 	})
-	// 	.then(res => {
-	// 		if(!res.canceled) setNewPost(currPost => {return {...currPost, img_url: "data:image/png;base64," + res.assets[0].base64}});
-	// 	})
-	// }
 
 	const postNewPost = () => {
 		setHasPosted(true);
@@ -85,7 +77,7 @@ export default function Posts({ navigation }) {
 	};
 
 	if (isError) return <Text>Something Went Wrong!</Text>;
-	if (isLoading) return <Text>Loading...</Text>;
+	if (isLoading) return <View tw="flex items-center text-center mt-10"><Text>Loading...</Text>;</View>
 
 	return (
 		<ScrollView tw="bg-[#e9d2b0]">
@@ -152,7 +144,7 @@ export default function Posts({ navigation }) {
 							<Text tw="text-center">
 								<Icon name="thumbs-o-up" size={16} /> {post.votes}
 							</Text>
-							<TouchableOpacity style={styles.chatButton}>
+							<TouchableOpacity style={styles.chatButton} onPress={() => goToChat(post.username)}>
 								<Text>Chat</Text>
 							</TouchableOpacity>
 						</Card>

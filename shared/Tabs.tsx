@@ -7,6 +7,7 @@ import Map from "../screens/Map";
 import Posts from "../screens/Posts";
 import UsersList from "../screens/UsersList";
 import LostAndFound from "../screens/LostandFound";
+import Chat from "../screens/Chat";
 
 const Tab = createBottomTabNavigator();
 
@@ -114,6 +115,24 @@ export default function Tabs() {
 							<Image
 								style={{ width: 48, height: 48 }}
 								source={require("../assets/profilegirl.png")}
+							/>
+						);
+					},
+					tabBarLabelStyle: {
+						display: "none",
+					},
+				}}
+			/>
+			<Tab.Screen
+				name="Chat"
+				component={Chat}
+				initialParams={{room: 'your'}}
+				options={{
+					tabBarIcon: () => {
+						return (
+							<Image
+								style={{ width: 48, height: 48 }}
+								source={require("../assets/catchat.png")}
 							/>
 						);
 					},
