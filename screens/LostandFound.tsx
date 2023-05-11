@@ -1,19 +1,18 @@
+import Splash from "../components/Splash";
 import useGetLostCats from "../utils/hooks/useGetLostCats";
 import { Text, View, Image, TouchableOpacity, ScrollView } from "react-native";
 
-export default function LostAndFound({navigation}) {
-    const { lostCats, isLoading, isError } = useGetLostCats();
+export default function LostAndFound({ navigation }) {
+	const { lostCats, isLoading, isError } = useGetLostCats();
 
 	if (isError) <Text>There has been an error!</Text>;
 
 	const goToChat = (room: string) => {
-        navigation.navigate("Welcome", {screen: 'Chat', params: {room}});
-    }
+		navigation.navigate("Welcome", { screen: "Chat", params: { room } });
+	};
 
 	return isLoading ? (
-		<View tw="flex items-center text-center mt-10">
-			<Text>Loading...</Text>
-		</View>
+		<Splash />
 	) : (
 		<ScrollView tw="bg-orange-200">
 			<Text

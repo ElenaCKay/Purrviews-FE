@@ -9,6 +9,7 @@ import {
 } from "react-native";
 import React, { useState } from "react";
 import useUserProfile from "../utils/hooks/useUserProfile";
+import Splash from "../components/Splash";
 
 export default function UserProfile({ route }) {
 	const { username } = route.params;
@@ -29,11 +30,7 @@ export default function UserProfile({ route }) {
 	if (isError) return <Text>Something Went Wrong!</Text>;
 
 	if (isLoading) {
-		return (
-			<View tw="flex items-center text-center mt-10">
-				<Text>Loading...</Text>
-			</View>
-		);
+		return <Splash />;
 	}
 
     return (

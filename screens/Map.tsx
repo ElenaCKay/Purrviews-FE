@@ -7,6 +7,7 @@ import Icon from "react-native-vector-icons/FontAwesome";
 import { Button } from "react-native-elements";
 import { catmarkers } from "../assets/catmarkers/catmarkers";
 import PostCatMap from "../components/PostCatMap";
+import Splash from "../components/Splash";
 
 export default function Map({ navigation }): JSX.Element {
 	const { postsData, setPostsData, isLoading, isError } = usePosts();
@@ -16,9 +17,7 @@ export default function Map({ navigation }): JSX.Element {
 	if (isError) return <Text>Something Went Wrong!</Text>;
 
 	return isLoading || !locationPerm ? (
-		<View tw="flex items-center text-center mt-10">
-			<Text>Loading...</Text>
-		</View>
+		<Splash />
 	) : (
 		<View tw="flex-1">
 			<PostCatMap

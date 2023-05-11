@@ -14,6 +14,7 @@ import { catmarkers } from "../assets/catmarkers/catmarkers";
 import useUserProfile from "../utils/hooks/useUserProfile";
 import AddCat from "../components/AddCat";
 import signOutLocal from "../utils/hooks/signOutLocal";
+import Splash from "../components/Splash";
 
 const auth = getAuth();
 const { width, height } = Dimensions.get("window");
@@ -25,7 +26,8 @@ export default function UserScreen() {
 	const user = auth.currentUser;
 	const username = user.displayName;
 	const [addCat, setAddCat] = useState(false);
-	const {userProfile, setUserProfile, isError, isLoading} = useUserProfile(username);
+	const { userProfile, setUserProfile, isError, isLoading } =
+		useUserProfile(username);
 
 	useEffect(() => {
 		(async () => {
@@ -51,18 +53,11 @@ export default function UserScreen() {
 		return <Text>No access to storage</Text>;
 	}
 
-
 	if (isError) {
 		return <Text>Something Went Wrong!</Text>;
 	}
 
-	if (isLoading) {
-		return (
-			<View tw="flex items-center text-center mt-10">
-				<Text>Loading...</Text>
-			</View>
-		);
-	}
+	if (isLoading) return <Splash />;
 
 	const onchange = (nativeEvent: NativeScrollEvent) => {
 		const { contentOffset, layoutMeasurement } = nativeEvent;
