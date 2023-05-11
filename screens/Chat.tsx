@@ -77,28 +77,40 @@ const Chat = ({route, navigation}) => {
     return isLoading ? (
 			<Splash />
 		) : (
-			<ScrollView
-				nestedScrollEnabled={true}
-				tw="bg-[#e9d2b0] flex-column text-center gap-10 mt-10"
-				contentContainerStyle={{ justifyContent: "center" }}
-			>
-				<Text h3>{room} Chat Room</Text>
-				<ScrollView nestedScrollEnabled={true} tw="bg-[#d7945f] rounded">
-					{userListData.map((userData) => (
-						<TouchableOpacity
-							tw="w-1/2 h-fit bg-white ml-10 mb-3"
-							key={userData.username}
-							onPress={() => changeRoom(userData.username)}
-						>
-							<Text tw="text-black ml-1">
-								{`${userData.username}` +
-									`${userData.username === user.username ? " (You)" : ""}`}
-							</Text>
-						</TouchableOpacity>
-					))}
+			<View tw=" h-full w-full mt-6 mr-6 bottom-0 absolute bg-orange-200">
+				<ScrollView tw="bg-orange-200 flex-column text-center">
+					<Text
+						tw=" m-3 mt-10 text-center pt-6 text-purple-900 text-5xl underline text-center"
+						style={{ fontFamily: "Pacifico-Regular" }}
+					>
+						{room} Chat Room
+					</Text>
+					<Text
+						tw="m-3 text-center text-purple-900 text-2xl underline text-center"
+						style={{ fontFamily: "Pacifico-Regular" }}
+					>
+						Scroll to View
+					</Text>
+					<ScrollView
+						nestedScrollEnabled={true}
+						tw="h-40 bg-[#d7945f] border-4 border-[#876243] rounded content-center mr-6 ml-6"
+					>
+						{userListData.map((userData) => (
+							<TouchableOpacity
+								tw="w-1/2 h-fit bg-white ml-10 mb-3"
+								key={userData.username}
+								onPress={() => changeRoom(userData.username)}
+							>
+								<Text tw="text-black ml-1">
+									{`${userData.username}` +
+										`${userData.username === user.username ? " (You)" : ""}`}
+								</Text>
+							</TouchableOpacity>
+						))}
+					</ScrollView>
 				</ScrollView>
 				<ScrollView
-					tw="w-3/4 h-1/2 bg-[#d7945f] rounded"
+					tw="h-1/4 bg-[#d7945f] border-2 border-black rounded rounded content-center ml-6 mr-6"
 					ref={lastMsgRef}
 					onContentSizeChange={(width, height) => {
 						newMsgScroll(height);
@@ -112,15 +124,17 @@ const Chat = ({route, navigation}) => {
 						</Text>
 					))}
 				</ScrollView>
-				<Input
-					placeholder="Write your message..."
-					value={message}
-					onChangeText={(value) => setMessage(value)}
-					onSubmitEditing={sendMessage}
-					blurOnSubmit={true}
-				></Input>
-				<Button title="Send" onPress={sendMessage} loading={sending}></Button>
-			</ScrollView>
+				<View tw="w-3/4 self-center mb-6">
+					<Input
+						placeholder="Write your message..."
+						value={message}
+						onChangeText={(value) => setMessage(value)}
+						onSubmitEditing={sendMessage}
+						blurOnSubmit={true}
+					></Input>
+					<Button title="Send" onPress={sendMessage} loading={sending}></Button>
+				</View>
+			</View>
 		);
 }
 
