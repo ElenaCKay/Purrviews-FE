@@ -1,50 +1,59 @@
 import {
-    StyleSheet,
-    Text,
-    View,
-    Image,
-    Button,
-    TouchableOpacity,
-    ScrollView,
-    Dimensions,
-    NativeScrollEvent,
+	Text,
+	View,
+	Image,
+	ScrollView,
+	Dimensions,
+	NativeScrollEvent,
+    TouchableOpacity
 } from "react-native";
 import React, { useState } from "react";
 import useUserProfile from "../utils/hooks/useUserProfile";
 
 export default function UserProfile({ route }) {
-    const { username } = route.params;
-    const { userProfile, isLoading, isError } = useUserProfile(username);
-    const [active, setActive] = useState(0);
-    const { width, height } = Dimensions.get("window");
+	const { username } = route.params;
+	const { userProfile, isLoading, isError } = useUserProfile(username);
+	const [active, setActive] = useState(0);
+	const { width, height } = Dimensions.get("window");
 
-    const onchange = (nativeEvent: NativeScrollEvent) => {
-        const { contentOffset, layoutMeasurement } = nativeEvent;
-        if (contentOffset) {
-            const slide = Math.ceil(contentOffset.x / layoutMeasurement.width);
-            if (slide !== active) {
-                setActive(slide);
-            }
-        }
-    };
+	const onchange = (nativeEvent: NativeScrollEvent) => {
+		const { contentOffset, layoutMeasurement } = nativeEvent;
+		if (contentOffset) {
+			const slide = Math.ceil(contentOffset.x / layoutMeasurement.width);
+			if (slide !== active) {
+				setActive(slide);
+			}
+		}
+	};
 
-    if (isError) return <Text>Something Went Wrong!</Text>;
+	if (isError) return <Text>Something Went Wrong!</Text>;
 
-    if (isLoading) {
-        return (
-            <View tw="flex items-center text-center mt-10">
-                <Text>Loading...</Text>
-            </View>
-        );
-    }
+	if (isLoading) {
+		return (
+			<View tw="flex items-center text-center mt-10">
+				<Text>Loading...</Text>
+			</View>
+		);
+	}
 
     return (
-        <View tw="flex-1 items-center">
+        <View tw="flex-1 items-center bg-orange-200">
             <Image source={{ uri: userProfile!.avatar }} style={{ width: 300, height: 300 }} />
-            <Text tw="text-2xl">{userProfile!.username}</Text>
+            <Text
+                tw="text-3xl m-3 mt-10 text-center pt-6 text-purple-900 text-5xl underline text-center"
+                style={{ fontFamily: "Pacifico-Regular" }}
+            >
+                {userProfile!.username}
+            </Text>
             <Text>{userProfile!.description}</Text>
-            <Text tw="text-xl mt-3">Cats:</Text>
+            <Text
+                tw="text-xl m-3 mt-10 text-center pt-6 text-purple-900 text-3xl underline text-center"
+                style={{ fontFamily: "Pacifico-Regular" }}
+            >
+                Cats:
+            </Text>
             <ScrollView
+                tw="bg-orange-200"
                 style={{ width: width, height: height * 0.35 }}
                 onScroll={({ nativeEvent }) => onchange(nativeEvent)}
                 pagingEnabled
@@ -53,13 +62,23 @@ export default function UserProfile({ route }) {
             >
                 {userProfile.cats.length === 0 ? (
                     <View>
-                        <Text tw="text-center">No Cats Available...</Text>
+                        <Text
+                            tw="text-3xl m-3 mt-10 text-center pt-6 text-black-900 text-3xl text-center"
+                            style={{ fontFamily: "Pacifico-Regular" }}
+                        >
+                            No Cats Available...
+                        </Text>
                     </View>
                 ) : (
                     userProfile!.cats.map((cats, index) => (
-                        <View key={cats.cat_id} tw="flex-row align-middle justify-center" style={{ width: width }}>
-                            <View tw="flex-col text-center">
-                                <Image source={{ uri: cats.cat_img }} tw="h-60 w-72" />
+                        <View
+                            key={cats.cat_id}
+                            tw="self-center w-5/6 bg-[#d7945f] m-8 border-4 border-[#876243] rounded-md"
+                        >
+                            <View tw="pt-4 pb-2 bg-[#876243]">
+                                <TouchableOpacity tw="pt-4 pb-2 bg-[#876243]">
+                                    <Image source={{ uri: cats.cat_img }} tw="border-2 w-60 h-60 rounded mx-auto" />
+                                </TouchableOpacity>
                                 <View>
                                     <Text tw="text-center">Name: {cats.cat_name}</Text>
                                     <Text tw="text-center">Age: {cats.age}</Text>

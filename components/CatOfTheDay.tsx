@@ -36,15 +36,30 @@ export default function CatOfTheDay() {
 	return loading ? (
 		<Splash />
 	) : (
-		<View tw="w-5/6 items-center bg-[#d7945f] pb-12 rounded-xl border-4 border-[#876243]">
+		<View tw="w-5/6 items-center bg-[#d7945f] pb-12 mt-10 rounded-xl border-4 border-[#876243]">
 			<View tw="flex-column">
-				<Text tw="text-center text-3xl mb-2 font-bold">Cat Of The Day By:</Text>
-				<Text
-					tw="pt-4 text-[#345fc4] text-5xl underline text-center"
-					style={{ fontFamily: "Pacifico-Regular" }}
-				>
-					{catOfTheDay.username}!
-				</Text>
+				<Text style={{
+								fontFamily: "Pacifico-Regular",
+								fontSize: 25,
+								color: "#FFF",
+								textShadowColor: "black",
+								textShadowRadius: 10,
+								textShadowOffset: {
+									width: 2,
+									height: 2,
+								},
+							}} tw="text-center text-3xl mt-5">Cat of The Day!</Text>
+							<Text style={{
+								fontFamily: "Pacifico-Regular",
+								fontSize: 10,
+								color: "#FFF",
+								textShadowColor: "black",
+								textShadowRadius: 10,
+								textShadowOffset: {
+									width: 2,
+									height: 2,
+								},
+							}} tw="text-center mb-2">Posted by {catOfTheDay.username}</Text>
 			</View>
 			<View tw=" border-yellow-500 border-4">
 				<Image
