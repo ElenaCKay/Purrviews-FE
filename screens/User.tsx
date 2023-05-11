@@ -64,7 +64,7 @@ export default function UserScreen() {
 
 	if (userProfileState.isLoading) {
 		return (
-			<View>
+			<View tw="flex items-center text-center mt-10">
 				<Text>Loading...</Text>
 			</View>
 		);

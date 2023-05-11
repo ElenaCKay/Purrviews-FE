@@ -77,7 +77,7 @@ export default function Posts({ navigation }) {
 	};
 
 	if (isError) return <Text>Something Went Wrong!</Text>;
-	if (isLoading) return <View tw="flex items-center text-center mt-10"><Text>Loading...</Text>;</View>
+	if (isLoading) return <View tw="flex items-center text-center mt-10"><Text>Loading...</Text></View>
 
 	return (
 		<ScrollView tw="bg-[#e9d2b0]">
