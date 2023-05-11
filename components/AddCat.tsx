@@ -23,14 +23,6 @@ const AddCat = ({ setAddCat, addCat, setApiUserInfo, apiUserInfo }) => {
 	});
 
 	const pickImage = () => {
-		// const result = await ImagePicker.launchImageLibraryAsync({
-		// 	mediaTypes: ImagePicker.MediaTypeOptions.Images,
-		// 	allowsEditing: true,
-		// 	aspect: [4, 4],
-		// 	base64: true,
-		// 	quality: 0.3,
-		// });
-		// if (!result.canceled) {
 		ChooseImage().then((result) =>
 			setCurrentCat({
 				...currentCat,
@@ -94,10 +86,10 @@ const AddCat = ({ setAddCat, addCat, setApiUserInfo, apiUserInfo }) => {
 			/>
 			<Input
 				style={{ backgroundColor: "#d7945f" }}
-				placeholder="Characteristics"
+				placeholder="Characteristics e.g. Moody Reclusive etc."
 				value={currentCat.characteristics[0]}
 				onChangeText={(text) => {
-					setCurrentCat({ ...currentCat, characteristics: [text] });
+					setCurrentCat({ ...currentCat, characteristics: text.split(' ') });
 				}}
 				leftIcon={<Icon name="envelope" size={16} />}
 			/>
