@@ -69,7 +69,7 @@ const Chat = ({route, navigation}) => {
 
     useEffect(() => {
         socket.on('messageRes', (msg: msgType) => {
-            if(room === msg.roomId) setMesasgeLog(currLog => [...currLog, msg]);
+            if(room === msg.roomId || (room === 'your' && msg.roomId === user.username)) setMesasgeLog(currLog => [...currLog, msg]);
             setSending(false);
         });
     }, [socket]);
