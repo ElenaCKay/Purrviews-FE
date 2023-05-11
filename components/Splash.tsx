@@ -7,7 +7,7 @@ export default function Splash() {
 		<View tw="h-full bg-orange-200 items-center">
 			<LottieView
 				tw="w-4/6 bg-orange-200 top-2"
-				source={require("../assets/Lottie/75212-cat-loader.json")}
+				source={require("../assets/Lottie/90254-loading-cat.json")}
 				loop
 				autoPlay
 			/>

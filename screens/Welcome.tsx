@@ -1,11 +1,5 @@
 import { useState, useRef, useEffect } from "react";
-import {
-	Text,
-	View,
-	TouchableWithoutFeedback,
-	TouchableOpacity,
-	Image,
-} from "react-native";
+import { Text, View, TouchableWithoutFeedback } from "react-native";
 import { getAuth, signOut } from "firebase/auth";
 import { useAuthentication } from "../utils/useAuthentication";
 import Splash from "../components/Splash";
@@ -25,7 +19,6 @@ const auth = getAuth();
 
 const WelcomeScreen = () => {
 	const LottieRef = useRef(null);
-	const [login, setLogin] = useState(false);
 	const { user } = useAuthentication();
 	const [isSignUp, setSignUp] = useState(false);
 	const [err, setErr] = useState("");
@@ -59,74 +52,64 @@ const WelcomeScreen = () => {
 			setIsLoading(false);
 			LottieRef.current?.play();
 		});
-	}, [user, login]);
+	}, [user]);
 
 	return isLoading ? (
 		<Splash />
 	) : (
 		<View tw="items-center flex-1 h-full bg-orange-200">
-			<View tw="items-center top-28">
+			<TouchableWithoutFeedback
+				onPress={() => {
+					LottieRef.current?.play();
+				}}
+			>
+				<LottieView
+					ref={LottieRef}
+					tw="w-10/12 absolute self-center -top-4"
+					source={require("../assets/Lottie/75212-cat-loader.json")}
+					loop={isLoading}
+					autoPlay={isLoading}
+				/>
+			</TouchableWithoutFeedback>
+			<Text
+				onPress={() => LottieRef.current?.play()}
+				style={{
+					fontFamily: "Pacifico-Regular",
+					textShadowColor: "white",
+					textShadowRadius: 1,
+					textShadowOffset: {
+						width: 4,
+						height: 4,
+					},
+				}}
+				tw="text-6xl pt-7 absolute text-purple-900 self-center top-24"
+			>
+				Purrviews
+			</Text>
 			{local.username && (
-						<Text
-							style={{
-								fontFamily: "Pacifico-Regular",
-								fontSize: 15,
-								color: "#FFF",
-								textShadowColor: "black",
-								textShadowRadius: 10,
-								textShadowOffset: {
-									width: 2,
-									height: 2,
-								},
-							}} tw="w-20 h-15 bottom-3 items-center absolute justify-center"
-						>
-							Welcome {local.username}!{" "}
-						</Text>
-					)}
 				<Text
-					onPress={() => LottieRef.current?.play()}
+					tw="text-4xl p-10 text-purple-900 top-8"
 					style={{
 						fontFamily: "Pacifico-Regular",
-						textShadowColor: "white",
-						textShadowRadius: 1,
+						fontSize: 40,
+						color: "#FFF",
+						textShadowColor: "black",
+						textShadowRadius: 10,
 						textShadowOffset: {
-							width: 4,
-							height: 4,
+							width: 2,
+							height: 2,
 						},
 					}}
-					tw="text-6xl pt-7 z-10 absolute text-purple-900 self-center"
 				>
-					Purrviews
+					Welcome {local.username}!
 				</Text>
-				<TouchableWithoutFeedback
-					onPress={() => {
-						LottieRef.current?.play();
-					}}
-				>
-					<LottieView
-						ref={LottieRef}
-						tw="w-10/12 absolute self-center -top-16"
-						source={require("../assets/Lottie/75212-cat-loader.json")}
-						loop={isLoading}
-						autoPlay={isLoading}
-					/>
-				</TouchableWithoutFeedback>
-			</View>
+			)}
+			<View tw="items-center absolute top-28"></View>
 			{isSignUp ? (
 				<SignUpScreen setSignUp={setSignUp} isLoading={isLoading} />
 			) : user ? (
 				<View tw="h-4/6 w-full absolute items-center bottom-0">
 					<CatOfTheDay />
-					<TouchableOpacity
-						tw="w-20 h-10 bg-white rounded-md bottom-3 items-center absolute justify-center"
-						style={{ elevation: 6 }}
-						onPress={() => {
-							signOutLocal();
-							signOut(auth);
-						}}
-					>
-						<Text tw="">Sign Out</Text>
-					</TouchableOpacity>
 				</View>
 			) : (
 				<SignInScreen setSignUp={setSignUp} LottieRef={LottieRef} />
