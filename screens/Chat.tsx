@@ -4,6 +4,7 @@ import { SocketContext } from "../utils/contexts/socket";
 import { Button, Input, Text } from "react-native-elements";
 import { getLocalUser } from "../utils/hooks/getLocalUser";
 import useUsersList from "../utils/hooks/useUsersList";
+import Splash from "../components/Splash";
 
 const Chat = ({route, navigation}) => {
     const {room}: {room: string} = route.params;
@@ -73,21 +74,54 @@ const Chat = ({route, navigation}) => {
         });
     }, [socket]);
 
-    return isLoading ? <View tw="flex items-center text-center mt-10">
-        <Text h3>Loading...</Text>
-    </View> : <ScrollView nestedScrollEnabled={true} tw="bg-[#e9d2b0] flex-column text-center gap-10 mt-10" contentContainerStyle={{justifyContent: 'center'}}>
-        <Text h3>{room} Chat Room</Text>
-        <ScrollView nestedScrollEnabled={true} tw="bg-[#d7945f] rounded">
-            {userListData.map(userData => <TouchableOpacity tw="w-1/2 h-fit bg-white ml-10 mb-3" key={userData.username} onPress={() => changeRoom(userData.username)}>
-                    <Text tw="text-black ml-1">{`${userData.username}` + `${userData.username === user.username ? ' (You)' : ''}`}</Text>
-                </TouchableOpacity>)}
-        </ScrollView>
-        <ScrollView tw="w-3/4 h-1/2 bg-[#d7945f] rounded" ref={lastMsgRef} onContentSizeChange={(width, height) => {newMsgScroll(height)}}>
-            {messageLog.map((msg, index) => <Text tw="text-white ml-1" key={index}>{`${msg.username}` + `${msg.username === user.username ? ' (You)' : ''}` + `: ${msg.body}`}</Text>)}
-        </ScrollView>
-        <Input placeholder="Write your message..." value={message} onChangeText={value => setMessage(value)} onSubmitEditing={sendMessage} blurOnSubmit={true}></Input>
-        <Button title='Send' onPress={sendMessage} loading={sending}></Button>
-    </ScrollView>
+    return isLoading ? (
+			<Splash />
+		) : (
+			<ScrollView
+				nestedScrollEnabled={true}
+				tw="bg-[#e9d2b0] flex-column text-center gap-10 mt-10"
+				contentContainerStyle={{ justifyContent: "center" }}
+			>
+				<Text h3>{room} Chat Room</Text>
+				<ScrollView nestedScrollEnabled={true} tw="bg-[#d7945f] rounded">
+					{userListData.map((userData) => (
+						<TouchableOpacity
+							tw="w-1/2 h-fit bg-white ml-10 mb-3"
+							key={userData.username}
+							onPress={() => changeRoom(userData.username)}
+						>
+							<Text tw="text-black ml-1">
+								{`${userData.username}` +
+									`${userData.username === user.username ? " (You)" : ""}`}
+							</Text>
+						</TouchableOpacity>
+					))}
+				</ScrollView>
+				<ScrollView
+					tw="w-3/4 h-1/2 bg-[#d7945f] rounded"
+					ref={lastMsgRef}
+					onContentSizeChange={(width, height) => {
+						newMsgScroll(height);
+					}}
+				>
+					{messageLog.map((msg, index) => (
+						<Text tw="text-white ml-1" key={index}>
+							{`${msg.username}` +
+								`${msg.username === user.username ? " (You)" : ""}` +
+								`: ${msg.body}`}
+						</Text>
+					))}
+				</ScrollView>
+				<Input
+					placeholder="Write your message..."
+					value={message}
+					onChangeText={(value) => setMessage(value)}
+					onSubmitEditing={sendMessage}
+					blurOnSubmit={true}
+				></Input>
+				<Button title="Send" onPress={sendMessage} loading={sending}></Button>
+			</ScrollView>
+		);
 }
 
 export default Chat;
