@@ -9,7 +9,7 @@ import { postCat } from "../api";
 import { useAuthentication } from "../utils/useAuthentication";
 import ChooseImage from "../utils/hooks/chooseImage";
 
-const AddCat = ({ setAddCat, addCat, setApiUserInfo, apiUserInfo }) => {
+const AddCat = ({ setAddCat, addCat, setUserProfile }) => {
 	const [isMissing, setIsMissing] = useState(false);
 	const [err, setErr] = useState("");
 	const { user } = useAuthentication();
@@ -86,10 +86,10 @@ const AddCat = ({ setAddCat, addCat, setApiUserInfo, apiUserInfo }) => {
 			/>
 			<Input
 				style={{ backgroundColor: "#d7945f" }}
-				placeholder="Characteristics e.g. Moody Reclusive etc."
-				value={currentCat.characteristics[0]}
+				placeholder="Characteristics e.g. Moody,Reclusive,etc."
+				value={currentCat.characteristics.join(',')}
 				onChangeText={(text) => {
-					setCurrentCat({ ...currentCat, characteristics: text.split(' ') });
+					setCurrentCat({ ...currentCat, characteristics: text.split(',') });
 				}}
 				leftIcon={<Icon name="envelope" size={16} />}
 			/>
@@ -135,21 +135,20 @@ const AddCat = ({ setAddCat, addCat, setApiUserInfo, apiUserInfo }) => {
 						if (currentCat.cat_name.length <= 2) {
 							setErr("Please Enter a cat name");
 						} else {
-							setApiUserInfo({
-								...apiUserInfo,
-								cats: [...apiUserInfo.cats, currentCat],
-							});
 							setAddCat(!addCat);
-							postCat(user, currentCat);
-							setCurrentCat({
-								cat_name: "",
-								age: 0,
-								breed: "",
-								characteristics: [],
-								cat_img:
-									catmarkers[Math.floor(Math.random() * catmarkers.length)],
-								missing: false,
-							});
+							postCat(user.displayName, currentCat).then(newCat => {
+								setUserProfile(currProfile => {return {...currProfile, cats: [...currProfile.cats, newCat]}});
+								setCurrentCat({
+									cat_name: "",
+									age: 0,
+									breed: "",
+									characteristics: [],
+									cat_img:
+										catmarkers[Math.floor(Math.random() * catmarkers.length)],
+									missing: false,
+								});
+							})
+							.catch(err => console.log(err));
 						}
 					}}
 				>
