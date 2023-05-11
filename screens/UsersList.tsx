@@ -7,17 +7,13 @@ import {
 	TouchableOpacity,
 } from "react-native";
 import useUsersList from "../utils/hooks/useUsersList";
-import { StackScreenProps } from "@react-navigation/stack";
-import { useState } from "react";
 
 export default function UsersList({ navigation }) {
-    const [userProfileUsername, setUserProfileUsername] = useState("");
     const { userListData, isLoading, isError } = useUsersList();
     if (isError) return <Text>Something Went Wrong!</Text>;
 
-    const onPressFunction = (username) => {
-        setUserProfileUsername(username);
-        navigation.navigate("User Profile", { username: username });
+    const onPressFunction = (username: string) => {
+        navigation.navigate("Welcome", { screen: "User Profile", params: {username} });
     };
 
     const goToChat = (room: string) => {
