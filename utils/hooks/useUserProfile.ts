@@ -18,7 +18,7 @@ const useUserProfile = (username) => {
         avatar: string,
         cats: catType[]
     };
-    const [userProfile, setuserProfile] = useState({} as userType);
+    const [userProfile, setUserProfile] = useState({} as userType);
     const [isLoading, setIsLoading] = useState(true);
     const [isError, setIsError] = useState(false);
 
@@ -26,14 +26,14 @@ const useUserProfile = (username) => {
         setIsLoading(true);
         getUsersByUsername(username)
             .then((data) => {
-                setuserProfile(data);
+                setUserProfile(data);
                 setIsError(false);
             })
             .catch((err) => setIsError(true))
             .finally(() => setIsLoading(false));
     }, []);
 
-    return { userProfile, isLoading, isError };
+    return { userProfile, setUserProfile, isLoading, isError };
 };
 
 export default useUserProfile;

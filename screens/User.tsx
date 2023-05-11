@@ -25,12 +25,7 @@ export default function UserScreen() {
 	const user = auth.currentUser;
 	const username = user.displayName;
 	const [addCat, setAddCat] = useState(false);
-	const [apiUserInfo, setApiUserInfo] = useState({
-		username: "",
-		description: "",
-		avatar: catmarkers[Math.floor(Math.random() * catmarkers.length)],
-		cats: [],
-	});
+	const {userProfile, setUserProfile, isError, isLoading} = useUserProfile(username);
 
 	useEffect(() => {
 		(async () => {
@@ -38,7 +33,7 @@ export default function UserScreen() {
 				await ImagePicker.requestMediaLibraryPermissionsAsync();
 			setGalleryPerm(galleryStatus.status === "granted");
 		})();
-	}, [addCat, apiUserInfo]);
+	}, [addCat, userProfile]);
 
 	const pickImage = async () => {
 		const result = await ImagePicker.launchImageLibraryAsync({
@@ -56,21 +51,18 @@ export default function UserScreen() {
 		return <Text>No access to storage</Text>;
 	}
 
-	const userProfileState = useUserProfile(username);
 
-	if (userProfileState.isError) {
+	if (isError) {
 		return <Text>Something Went Wrong!</Text>;
 	}
 
-	if (userProfileState.isLoading) {
+	if (isLoading) {
 		return (
 			<View tw="flex items-center text-center mt-10">
 				<Text>Loading...</Text>
 			</View>
 		);
 	}
-
-	const userProfile = userProfileState.userProfile;
 
 	const onchange = (nativeEvent: NativeScrollEvent) => {
 		const { contentOffset, layoutMeasurement } = nativeEvent;
@@ -158,8 +150,7 @@ export default function UserScreen() {
 						<AddCat
 							setAddCat={setAddCat}
 							addCat={addCat}
-							setApiUserInfo={setApiUserInfo}
-							apiUserInfo={apiUserInfo}
+							setUserProfile={setUserProfile}
 						/>
 					)}
 				</View>
